@@ -7,92 +7,423 @@
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#e9e9e9;color:#111}
-.app{max-width:1250px;margin:20px auto;background:#fff;padding:20px;border:1px solid #222}
 
-.topbar{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #111;padding-bottom:12px}
-.topbar h1{margin:0;font-size:22px}
-.topbar button{margin-left:6px}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#e9e9e9;
+  color:#111;
+}
 
-button{padding:9px 16px;border:0;background:#111;color:#fff;cursor:pointer}
-button.danger{background:#900}
-button.light{background:#555}
+.app{
+  max-width:1250px;
+  margin:20px auto;
+  background:#fff;
+  min-height:100vh;
+  border:1px solid #222;
+}
 
-.dashboard{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:15px 0}
-.card{border:1px solid #333;padding:14px}
-.card small{display:block;font-size:11px}
-.card strong{font-size:21px;display:block;margin-top:6px}
+/* TOP BAR */
 
-.section-title{background:#111;color:#fff;padding:8px;font-size:13px;font-weight:bold;margin-top:16px}
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 20px;
+  border-bottom:1px solid #ccc;
+}
 
-.header{display:grid;grid-template-columns:120px 1fr 320px;gap:20px;align-items:center;border-bottom:2px solid #111;padding:15px 0}
-.logo{text-align:center;font-weight:bold}
-.logo-mark{font-size:48px}
-.logo-text{font-size:11px}
-.company h2{font-size:19px;margin:0 0 7px}
-.company p{margin:3px 0;font-size:11px}
+.topbar h1{
+  margin:0;
+  font-size:21px;
+}
 
-.invoice-info{border-left:1px solid #aaa;padding-left:15px}
-.invoice-info h2{margin:0 0 10px;text-align:right}
-.invoice-row{display:flex;justify-content:space-between;align-items:center;margin:6px 0;gap:8px}
-.invoice-row label{font-weight:bold;font-size:11px}
-.invoice-row input,.invoice-row select{width:170px}
+.top-actions button{
+  margin-left:6px;
+}
 
-input,select{padding:7px;border:1px solid #777;font-size:12px}
+/* NAVIGATION */
 
-.parties{display:grid;grid-template-columns:1fr 1fr}
-.party{border:1px solid #333;padding:12px;min-height:140px}
-.party h3{font-size:12px;margin:0 0 9px}
-.party input{width:100%;margin-bottom:6px}
+.nav{
+  display:flex;
+  gap:0;
+  border-bottom:2px solid #111;
+  overflow-x:auto;
+}
 
-.items{margin-top:15px;overflow-x:auto}
-table{width:100%;border-collapse:collapse}
-th,td{border:1px solid #222;padding:6px;font-size:11px}
-th{background:#eee}
-td input{width:100%}
-.qty{width:65px!important}
-.rate{width:90px!important}
+.nav button{
+  border:0;
+  background:#fff;
+  color:#111;
+  padding:13px 20px;
+  cursor:pointer;
+  font-weight:bold;
+  white-space:nowrap;
+}
 
-.remove{background:#900;padding:5px 9px}
-.add{margin-top:8px}
+.nav button:hover,
+.nav button.active{
+  background:#111;
+  color:#fff;
+}
 
-.summary{display:grid;grid-template-columns:1fr 350px;gap:15px;margin-top:15px}
-.amount-words{border:1px solid #222;padding:12px;font-size:12px}
-.totals{border:1px solid #222}
-.total-row{display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid #aaa;font-size:12px}
-.grand{font-size:16px;font-weight:bold;border:0}
+/* CONTENT */
 
-.bottom{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:15px}
-.box{border:1px solid #222;padding:12px;font-size:11px}
-.box h3{margin:0 0 8px;font-size:12px}
+.page{
+  display:none;
+  padding:20px;
+}
 
-.saved{margin-top:15px}
-.saved table{font-size:11px}
-.saved button{padding:5px 8px}
+.page.active{
+  display:block;
+}
 
-.hidden{display:none}
+button{
+  padding:9px 16px;
+  border:0;
+  background:#111;
+  color:#fff;
+  cursor:pointer;
+}
 
-.credit-period{display:none}
+button.danger{
+  background:#900;
+}
+
+button.secondary{
+  background:#555;
+}
+
+/* DASHBOARD */
+
+.dashboard{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.card{
+  border:1px solid #333;
+  padding:15px;
+}
+
+.card small{
+  display:block;
+  font-size:11px;
+}
+
+.card strong{
+  display:block;
+  font-size:22px;
+  margin-top:7px;
+}
+
+/* FORMS */
+
+.section-title{
+  background:#111;
+  color:#fff;
+  padding:8px;
+  font-size:13px;
+  font-weight:bold;
+  margin:15px 0 0;
+}
+
+.form-box{
+  border:1px solid #333;
+  padding:15px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.form-grid input,
+.form-grid select{
+  width:100%;
+}
+
+input,
+select{
+  padding:8px;
+  border:1px solid #777;
+  font-size:12px;
+}
+
+/* TABLE */
+
+.table-wrap{
+  overflow-x:auto;
+  margin-top:15px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th,
+td{
+  border:1px solid #222;
+  padding:8px;
+  font-size:12px;
+}
+
+th{
+  background:#eee;
+}
+
+/* INVOICE */
+
+.invoice-header{
+  display:grid;
+  grid-template-columns:120px 1fr 320px;
+  gap:20px;
+  align-items:center;
+  border-bottom:2px solid #111;
+  padding-bottom:15px;
+}
+
+.logo{
+  text-align:center;
+  font-weight:bold;
+}
+
+.logo-mark{
+  font-size:48px;
+}
+
+.logo-text{
+  font-size:11px;
+}
+
+.company h2{
+  font-size:19px;
+  margin:0 0 7px;
+}
+
+.company p{
+  margin:3px 0;
+  font-size:11px;
+}
+
+.invoice-info{
+  border-left:1px solid #aaa;
+  padding-left:15px;
+}
+
+.invoice-info h2{
+  margin:0 0 10px;
+  text-align:right;
+}
+
+.invoice-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:6px 0;
+  gap:8px;
+}
+
+.invoice-row label{
+  font-weight:bold;
+  font-size:11px;
+}
+
+.invoice-row input,
+.invoice-row select{
+  width:170px;
+}
+
+.parties{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+}
+
+.party{
+  border:1px solid #333;
+  padding:12px;
+  min-height:140px;
+}
+
+.party h3{
+  font-size:12px;
+  margin:0 0 9px;
+}
+
+.party input{
+  width:100%;
+  margin-bottom:6px;
+}
+
+.items{
+  margin-top:15px;
+  overflow-x:auto;
+}
+
+.items table{
+  min-width:1000px;
+}
+
+.items td input{
+  width:100%;
+}
+
+.qty{
+  width:65px!important;
+}
+
+.rate{
+  width:90px!important;
+}
+
+.remove{
+  background:#900;
+  padding:5px 9px;
+}
+
+.add{
+  margin-top:8px;
+}
+
+.summary{
+  display:grid;
+  grid-template-columns:1fr 350px;
+  gap:15px;
+  margin-top:15px;
+}
+
+.amount-words{
+  border:1px solid #222;
+  padding:12px;
+  font-size:12px;
+}
+
+.totals{
+  border:1px solid #222;
+}
+
+.total-row{
+  display:flex;
+  justify-content:space-between;
+  padding:8px;
+  border-bottom:1px solid #aaa;
+  font-size:12px;
+}
+
+.grand{
+  font-size:16px;
+  font-weight:bold;
+  border:0;
+}
+
+.bottom{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+  margin-top:15px;
+}
+
+.box{
+  border:1px solid #222;
+  padding:12px;
+  font-size:11px;
+}
+
+.box h3{
+  margin:0 0 8px;
+  font-size:12px;
+}
+
+.credit-period{
+  display:none;
+}
+
+/* MOBILE */
 
 @media(max-width:850px){
-.app{margin:0;padding:10px}
-.header,.parties,.summary,.bottom{grid-template-columns:1fr}
-.dashboard{grid-template-columns:1fr 1fr}
-.invoice-info{border:0;padding:0}
-.invoice-info h2{text-align:left}
+
+  .topbar{
+    display:block;
+  }
+
+  .top-actions{
+    margin-top:10px;
+  }
+
+  .top-actions button{
+    margin:3px 3px 3px 0;
+  }
+
+  .dashboard{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .invoice-header,
+  .parties,
+  .summary,
+  .bottom{
+    grid-template-columns:1fr;
+  }
+
+  .invoice-info{
+    border:0;
+    padding:0;
+  }
+
+  .invoice-info h2{
+    text-align:left;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
 }
 
 @media(max-width:500px){
-.dashboard{grid-template-columns:1fr}
-.topbar{display:block}
-.topbar button{margin-top:8px}
+
+  .dashboard{
+    grid-template-columns:1fr;
+  }
+
+  .page{
+    padding:12px;
+  }
+
 }
 
+/* PRINT */
+
 @media print{
-body{background:#fff}
-.app{margin:0;border:0}
-.topbar,.dashboard,.saved,.add,.remove,.print-hide{display:none!important}
-.section-title{background:#111!important;color:#fff!important}
+
+  body{
+    background:#fff;
+  }
+
+  .app{
+    border:0;
+    margin:0;
+  }
+
+  .topbar,
+  .nav,
+  #dashboardPage,
+  #customersPage,
+  #productsPage,
+  #invoicesPage,
+  #accountsPage,
+  .print-hide{
+    display:none!important;
+  }
+
+  #invoicePage{
+    display:block!important;
+    padding:0;
+  }
+
 }
 </style>
 </head>
@@ -107,16 +438,62 @@ body{background:#fff}
 
 <h1>WILLPOWER SALES</h1>
 
-<div>
-<button onclick="newInvoice()">+ New Invoice</button>
-<button onclick="saveInvoice()">Save Invoice</button>
-<button onclick="window.print()">Print / PDF</button>
+<div class="top-actions">
+
+<button onclick="showPage('invoicePage')">
++ New Invoice
+</button>
+
+<button onclick="saveInvoice()">
+Save Invoice
+</button>
+
+<button onclick="window.print()">
+Print / PDF
+</button>
+
 </div>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="nav">
+
+<button class="active"
+onclick="showPage('dashboardPage',this)">
+Dashboard
+</button>
+
+<button onclick="showPage('invoicePage',this)">
+New Invoice
+</button>
+
+<button onclick="showPage('invoicesPage',this)">
+Invoices
+</button>
+
+<button onclick="showPage('customersPage',this)">
+Customers
+</button>
+
+<button onclick="showPage('productsPage',this)">
+Products
+</button>
+
+<button onclick="showPage('accountsPage',this)">
+Accounts
+</button>
 
 </div>
 
 
 <!-- DASHBOARD -->
+
+<div id="dashboardPage" class="page active">
+
+<h2>Dashboard</h2>
 
 <div class="dashboard">
 
@@ -126,7 +503,7 @@ body{background:#fff}
 </div>
 
 <div class="card">
-<small>MONTH'S SALES</small>
+<small>THIS MONTH'S SALES</small>
 <strong id="monthSales">₹0.00</strong>
 </div>
 
@@ -142,12 +519,14 @@ body{background:#fff}
 
 </div>
 
+</div>
 
-<!-- INVOICE -->
 
-<div id="invoiceArea">
+<!-- INVOICE PAGE -->
 
-<div class="header">
+<div id="invoicePage" class="page">
+
+<div class="invoice-header">
 
 <div class="logo">
 <div class="logo-mark">W</div>
@@ -204,9 +583,9 @@ body{background:#fff}
 </div>
 
 
-<!-- CUSTOMER -->
-
-<div class="section-title">BUYER</div>
+<div class="section-title">
+BUYER
+</div>
 
 <div class="parties">
 
@@ -215,9 +594,14 @@ body{background:#fff}
 <h3>CUSTOMER DETAILS</h3>
 
 <input id="buyerName" value="Raghavendra Enterprises">
-<input id="buyerAddress" value="548, LIG, 14th Cross, Navanagar, Hubballi - 580025">
+
+<input id="buyerAddress"
+value="548, LIG, 14th Cross, Navanagar, Hubballi - 580025">
+
 <input id="buyerState" value="Karnataka">
+
 <input id="buyerGST" value="Unregistered Buyer">
+
 <input id="buyerContact" placeholder="Contact Number">
 
 </div>
@@ -227,8 +611,11 @@ body{background:#fff}
 <h3>SUPPLIER</h3>
 
 <input value="World of Willpower Private Limited" readonly>
+
 <input value="Gayatri Farms, Khamgaon Maval, Haveli, Pune 411025, Maharashtra" readonly>
+
 <input value="CIN: U86900PN2026PTC251855" readonly>
+
 <input value="GSTIN: 27AAECW3784C1Z7" readonly>
 
 </div>
@@ -236,15 +623,16 @@ body{background:#fff}
 </div>
 
 
-<!-- PRODUCTS -->
-
-<div class="section-title">PRODUCT DETAILS</div>
+<div class="section-title">
+PRODUCT DETAILS
+</div>
 
 <div class="items">
 
 <table>
 
 <thead>
+
 <tr>
 <th>Sl.</th>
 <th>Product</th>
@@ -258,24 +646,30 @@ body{background:#fff}
 <th>Total</th>
 <th class="print-hide"></th>
 </tr>
+
 </thead>
 
-<tbody id="invoiceProductRows"></tbody>
+<tbody id="invoiceProductRows">
+</tbody>
 
 </table>
 
-<button class="add print-hide" onclick="addInvoiceProduct()">+ Add Product</button>
+<button class="add print-hide"
+onclick="addInvoiceProduct()">
++ Add Product
+</button>
 
 </div>
 
 
-<!-- TOTAL -->
-
 <div class="summary">
 
 <div class="amount-words">
+
 <b>Amount Chargeable in Words:</b>
+
 <div id="amountWords"></div>
+
 </div>
 
 <div class="totals">
@@ -305,15 +699,18 @@ body{background:#fff}
 </div>
 
 
-<!-- TERMS / BANK -->
-
 <div class="bottom">
 
 <div class="box">
 
 <h3>TERMS & CONDITIONS</h3>
 
-<p><b>Payment:</b> <span id="displayPayment">100% Advance Payment</span></p>
+<p>
+<b>Payment:</b>
+<span id="displayPayment">
+100% Advance Payment
+</span>
+</p>
 
 <p id="displayCredit"></p>
 
@@ -350,26 +747,31 @@ For World of Willpower Private Limited
 </div>
 
 
-<!-- SAVED INVOICES -->
+<!-- INVOICES -->
 
-<div class="section-title print-hide">SAVED INVOICES</div>
+<div id="invoicesPage" class="page">
 
-<div class="saved print-hide">
+<h2>Invoices</h2>
+
+<div class="table-wrap">
 
 <table>
 
 <thead>
+
 <tr>
 <th>Invoice No.</th>
 <th>Date</th>
 <th>Customer</th>
 <th>Status</th>
+<th>Payment</th>
 <th>Amount</th>
 <th>Action</th>
 </tr>
+
 </thead>
 
-<tbody id="savedInvoices"></tbody>
+<tbody id="invoiceList"></tbody>
 
 </table>
 
@@ -378,12 +780,214 @@ For World of Willpower Private Limited
 </div>
 
 
+<!-- CUSTOMERS -->
+
+<div id="customersPage" class="page">
+
+<h2>Customers</h2>
+
+<div class="section-title">
+ADD CUSTOMER
+</div>
+
+<div class="form-box">
+
+<div class="form-grid">
+
+<input id="masterCustomerName"
+placeholder="Customer Name">
+
+<input id="masterCustomerAddress"
+placeholder="Address">
+
+<input id="masterCustomerState"
+placeholder="State">
+
+<input id="masterCustomerGST"
+placeholder="GSTIN / Unregistered">
+
+<input id="masterCustomerContact"
+placeholder="Contact Number">
+
+<button onclick="addCustomer()">
++ Add Customer
+</button>
+
+</div>
+
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Customer</th>
+<th>Address</th>
+<th>State</th>
+<th>GSTIN</th>
+<th>Contact</th>
+</tr>
+</thead>
+
+<tbody id="customerList"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- PRODUCTS -->
+
+<div id="productsPage" class="page">
+
+<h2>Products</h2>
+
+<div class="section-title">
+ADD PRODUCT
+</div>
+
+<div class="form-box">
+
+<div class="form-grid">
+
+<input id="masterProductName"
+placeholder="Product Name">
+
+<input id="masterProductHSN"
+placeholder="HSN Code">
+
+<input id="masterProductPacking"
+placeholder="Packing Type">
+
+<input id="masterProductGST"
+type="number"
+value="5"
+placeholder="GST %">
+
+<input id="masterProductRate"
+type="number"
+placeholder="Rate / Unit Incl. GST">
+
+<button onclick="addProductMaster()">
++ Add Product
+</button>
+
+</div>
+
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Product</th>
+<th>HSN</th>
+<th>Packing</th>
+<th>GST %</th>
+<th>Rate</th>
+</tr>
+
+</thead>
+
+<tbody id="productList"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- ACCOUNTS -->
+
+<div id="accountsPage" class="page">
+
+<h2>Accounts</h2>
+
+<div class="dashboard">
+
+<div class="card">
+<small>TOTAL SALES</small>
+<strong id="accountSales">₹0.00</strong>
+</div>
+
+<div class="card">
+<small>CREDIT SALES</small>
+<strong id="creditSales">₹0.00</strong>
+</div>
+
+<div class="card">
+<small>ADVANCE / CASH SALES</small>
+<strong id="advanceSales">₹0.00</strong>
+</div>
+
+<div class="card">
+<small>OUTSTANDING</small>
+<strong id="accountOutstanding">₹0.00</strong>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
 <script>
+
+/* NAVIGATION */
+
+function showPage(pageId,button){
+
+document.querySelectorAll(".page")
+.forEach(page=>page.classList.remove("active"));
+
+document.getElementById(pageId)
+.classList.add("active");
+
+document.querySelectorAll(".nav button")
+.forEach(btn=>btn.classList.remove("active"));
+
+if(button){
+button.classList.add("active");
+}
+
+if(pageId==="invoicesPage"){
+displayInvoices();
+}
+
+if(pageId==="customersPage"){
+displayCustomers();
+}
+
+if(pageId==="productsPage"){
+displayProducts();
+}
+
+if(pageId==="accountsPage"){
+updateDashboard();
+}
+
+}
+
 
 /* STORAGE */
 
 let invoices=
 JSON.parse(localStorage.getItem("willpowerInvoices")||"[]");
+
+let customers=
+JSON.parse(localStorage.getItem("willpowerCustomers")||"[]");
+
+let products=
+JSON.parse(localStorage.getItem("willpowerProducts")||"[]");
 
 
 /* INVOICE NUMBER */
@@ -405,42 +1009,6 @@ return "WWPL/"+String(last).padStart(4,"0");
 }
 
 
-/* NEW INVOICE */
-
-function newInvoice(){
-
-document.getElementById("invoiceNo").value=
-nextInvoiceNumber();
-
-document.getElementById("invoiceDate").value=
-new Date().toISOString().split("T")[0];
-
-document.getElementById("invoiceStatus").value="Draft";
-
-document.getElementById("buyerName").value="";
-document.getElementById("buyerAddress").value="";
-document.getElementById("buyerState").value="";
-document.getElementById("buyerGST").value="";
-document.getElementById("buyerContact").value="";
-
-document.getElementById("paymentTerms").value=
-"100% Advance Payment";
-
-document.getElementById("creditPeriod").value="";
-document.getElementById("creditPeriodRow").style.display="none";
-
-const tbody=
-document.getElementById("invoiceProductRows");
-
-tbody.innerHTML="";
-
-addInvoiceProduct();
-
-calculateInvoice();
-
-}
-
-
 /* PAYMENT TERMS */
 
 document.getElementById("paymentTerms")
@@ -450,19 +1018,14 @@ const row=
 document.getElementById("creditPeriodRow");
 
 if(this.value==="Credit"){
-
 row.style.display="flex";
-
 }else{
-
 row.style.display="none";
-
 document.getElementById("creditPeriod").value="";
-
 }
 
-document.getElementById("displayPayment").innerText=
-this.value;
+document.getElementById("displayPayment")
+.innerText=this.value;
 
 });
 
@@ -470,8 +1033,11 @@ this.value;
 document.getElementById("creditPeriod")
 .addEventListener("input",function(){
 
-document.getElementById("displayCredit").innerText=
-this.value ? "Credit Period: "+this.value : "";
+document.getElementById("displayCredit")
+.innerText=
+this.value
+? "Credit Period: "+this.value
+: "";
 
 });
 
@@ -522,9 +1088,11 @@ row.innerHTML=`
 <td class="amount">₹0.00</td>
 
 <td class="print-hide">
-<button class="remove" onclick="removeInvoiceProduct(this)">X</button>
+<button class="remove"
+onclick="removeInvoiceProduct(this)">
+X
+</button>
 </td>
-
 `;
 
 tbody.appendChild(row);
@@ -542,11 +1110,8 @@ const rows=
 document.querySelectorAll("#invoiceProductRows tr");
 
 if(rows.length===1){
-
 alert("At least one product is required.");
-
 return;
-
 }
 
 button.closest("tr").remove();
@@ -561,9 +1126,7 @@ function renumberRows(){
 
 document.querySelectorAll("#invoiceProductRows tr")
 .forEach((row,index)=>{
-
 row.cells[0].innerText=index+1;
-
 });
 
 }
@@ -579,6 +1142,56 @@ input.removeEventListener("input",calculateInvoice);
 input.addEventListener("input",calculateInvoice);
 
 });
+
+}
+
+
+/* CALCULATION */
+
+function calculateInvoice(){
+
+let total=0;
+
+document.querySelectorAll("#invoiceProductRows tr")
+.forEach(row=>{
+
+const qty=
+Number(row.querySelector(".qty").value)||0;
+
+const rate=
+Number(row.querySelector(".rate").value)||0;
+
+const amount=qty*rate;
+const taxable=amount/1.05;
+
+row.querySelector(".taxable").innerText=
+"₹"+taxable.toFixed(2);
+
+row.querySelector(".amount").innerText=
+"₹"+amount.toFixed(2);
+
+total+=amount;
+
+});
+
+const taxableTotal=total/1.05;
+const cgst=taxableTotal*.025;
+const sgst=taxableTotal*.025;
+
+document.getElementById("taxableTotal")
+.innerText="₹"+taxableTotal.toFixed(2);
+
+document.getElementById("cgst")
+.innerText="₹"+cgst.toFixed(2);
+
+document.getElementById("sgst")
+.innerText="₹"+sgst.toFixed(2);
+
+document.getElementById("grandTotal")
+.innerText="₹"+total.toFixed(2);
+
+document.getElementById("amountWords")
+.innerText=numberToWords(total)+" Rupees Only";
 
 }
 
@@ -602,7 +1215,8 @@ function convert(n){
 if(n<20)return ones[n];
 
 if(n<100)
-return tens[Math.floor(n/10)]+(n%10?" "+ones[n%10]:"");
+return tens[Math.floor(n/10)]+
+(n%10?" "+ones[n%10]:"");
 
 if(n<1000)
 return ones[Math.floor(n/100)]+" Hundred"+
@@ -626,72 +1240,17 @@ return convert(Math.floor(num))||"Zero";
 }
 
 
-/* CALCULATION */
-
-function calculateInvoice(){
-
-let total=0;
-
-document.querySelectorAll("#invoiceProductRows tr")
-.forEach(row=>{
-
-const qty=
-Number(row.querySelector(".qty").value)||0;
-
-const rate=
-Number(row.querySelector(".rate").value)||0;
-
-const amount=qty*rate;
-
-const taxable=amount/1.05;
-
-row.querySelector(".taxable").innerText=
-"₹"+taxable.toFixed(2);
-
-row.querySelector(".amount").innerText=
-"₹"+amount.toFixed(2);
-
-total+=amount;
-
-});
-
-const taxableTotal=total/1.05;
-
-const cgst=taxableTotal*0.025;
-
-const sgst=taxableTotal*0.025;
-
-document.getElementById("taxableTotal").innerText=
-"₹"+taxableTotal.toFixed(2);
-
-document.getElementById("cgst").innerText=
-"₹"+cgst.toFixed(2);
-
-document.getElementById("sgst").innerText=
-"₹"+sgst.toFixed(2);
-
-document.getElementById("grandTotal").innerText=
-"₹"+total.toFixed(2);
-
-document.getElementById("amountWords").innerText=
-numberToWords(total)+" Rupees Only";
-
-}
-
-
 /* SAVE INVOICE */
 
 function saveInvoice(){
 
-const totalText=
-document.getElementById("grandTotal").innerText;
-
-const total=
-Number(totalText.replace(/[₹,]/g,""));
+const amount=
+Number(
+document.getElementById("grandTotal")
+.innerText.replace(/[₹,]/g,"")
+);
 
 const invoice={
-
-id:Date.now(),
 
 number:
 document.getElementById("invoiceNo").value,
@@ -711,21 +1270,17 @@ document.getElementById("paymentTerms").value,
 credit:
 document.getElementById("creditPeriod").value,
 
-amount:total
+amount:amount
 
 };
 
-const existing=
+const index=
 invoices.findIndex(i=>i.number===invoice.number);
 
-if(existing>=0){
-
-invoices[existing]=invoice;
-
+if(index>=0){
+invoices[index]=invoice;
 }else{
-
 invoices.push(invoice);
-
 }
 
 localStorage.setItem(
@@ -733,7 +1288,7 @@ localStorage.setItem(
 JSON.stringify(invoices)
 );
 
-displaySavedInvoices();
+displayInvoices();
 updateDashboard();
 
 alert("Invoice saved successfully.");
@@ -741,16 +1296,17 @@ alert("Invoice saved successfully.");
 }
 
 
-/* SAVED INVOICES */
+/* INVOICES */
 
-function displaySavedInvoices(){
+function displayInvoices(){
 
 const tbody=
-document.getElementById("savedInvoices");
+document.getElementById("invoiceList");
 
 tbody.innerHTML="";
 
-invoices.slice().reverse().forEach(invoice=>{
+invoices.slice().reverse()
+.forEach(invoice=>{
 
 const row=document.createElement("tr");
 
@@ -760,10 +1316,11 @@ row.innerHTML=`
 <td>${invoice.date}</td>
 <td>${invoice.customer}</td>
 <td>${invoice.status}</td>
+<td>${invoice.payment}</td>
 <td>₹${invoice.amount.toFixed(2)}</td>
 
 <td>
-<button onclick="loadInvoice('${invoice.number}')">
+<button onclick="openInvoice('${invoice.number}')">
 Open
 </button>
 </td>
@@ -777,9 +1334,9 @@ tbody.appendChild(row);
 }
 
 
-/* LOAD INVOICE */
+/* OPEN INVOICE */
 
-function loadInvoice(number){
+function openInvoice(number){
 
 const invoice=
 invoices.find(i=>i.number===number);
@@ -804,25 +1361,162 @@ invoice.payment;
 document.getElementById("creditPeriod").value=
 invoice.credit||"";
 
-if(invoice.payment==="Credit"){
+document.getElementById("displayPayment")
+.innerText=invoice.payment;
 
-document.getElementById("creditPeriodRow")
-.style.display="flex";
-
-}else{
-
-document.getElementById("creditPeriodRow")
-.style.display="none";
+showPage("invoicePage");
 
 }
 
-document.getElementById("displayPayment").innerText=
-invoice.payment;
 
-document.getElementById("displayCredit").innerText=
-invoice.credit ? "Credit Period: "+invoice.credit : "";
+/* CUSTOMERS */
 
-window.scrollTo({top:0,behavior:"smooth"});
+function addCustomer(){
+
+const name=
+document.getElementById("masterCustomerName").value.trim();
+
+if(!name){
+alert("Enter customer name.");
+return;
+}
+
+customers.push({
+
+name:name,
+
+address:
+document.getElementById("masterCustomerAddress").value,
+
+state:
+document.getElementById("masterCustomerState").value,
+
+gst:
+document.getElementById("masterCustomerGST").value,
+
+contact:
+document.getElementById("masterCustomerContact").value
+
+});
+
+localStorage.setItem(
+"willpowerCustomers",
+JSON.stringify(customers)
+);
+
+document.getElementById("masterCustomerName").value="";
+document.getElementById("masterCustomerAddress").value="";
+document.getElementById("masterCustomerState").value="";
+document.getElementById("masterCustomerGST").value="";
+document.getElementById("masterCustomerContact").value="";
+
+displayCustomers();
+
+alert("Customer added.");
+
+}
+
+
+function displayCustomers(){
+
+const tbody=
+document.getElementById("customerList");
+
+tbody.innerHTML="";
+
+customers.forEach(customer=>{
+
+const row=document.createElement("tr");
+
+row.innerHTML=`
+
+<td>${customer.name}</td>
+<td>${customer.address}</td>
+<td>${customer.state}</td>
+<td>${customer.gst}</td>
+<td>${customer.contact}</td>
+
+`;
+
+tbody.appendChild(row);
+
+});
+
+}
+
+
+/* PRODUCTS MASTER */
+
+function addProductMaster(){
+
+const name=
+document.getElementById("masterProductName")
+.value.trim();
+
+if(!name){
+alert("Enter product name.");
+return;
+}
+
+products.push({
+
+name:name,
+
+hsn:
+document.getElementById("masterProductHSN").value,
+
+packing:
+document.getElementById("masterProductPacking").value,
+
+gst:
+Number(document.getElementById("masterProductGST").value)||5,
+
+rate:
+Number(document.getElementById("masterProductRate").value)||0
+
+});
+
+localStorage.setItem(
+"willpowerProducts",
+JSON.stringify(products)
+);
+
+document.getElementById("masterProductName").value="";
+document.getElementById("masterProductHSN").value="";
+document.getElementById("masterProductPacking").value="";
+document.getElementById("masterProductRate").value="";
+
+displayProducts();
+
+alert("Product added.");
+
+}
+
+
+function displayProducts(){
+
+const tbody=
+document.getElementById("productList");
+
+tbody.innerHTML="";
+
+products.forEach(product=>{
+
+const row=document.createElement("tr");
+
+row.innerHTML=`
+
+<td>${product.name}</td>
+<td>${product.hsn}</td>
+<td>${product.packing}</td>
+<td>${product.gst}%</td>
+<td>₹${product.rate}</td>
+
+`;
+
+tbody.appendChild(row);
+
+});
 
 }
 
@@ -831,15 +1525,14 @@ window.scrollTo({top:0,behavior:"smooth"});
 
 function updateDashboard(){
 
-const today=
-new Date().toISOString().split("T")[0];
-
-const month=
-today.substring(0,7);
-
 let todayTotal=0;
 let monthTotal=0;
 let outstanding=0;
+
+const today=
+new Date().toISOString().split("T")[0];
+
+const month=today.substring(0,7);
 
 invoices.forEach(invoice=>{
 
@@ -857,17 +1550,30 @@ outstanding+=invoice.amount;
 
 });
 
-document.getElementById("todaySales").innerText=
-"₹"+todayTotal.toFixed(2);
+document.getElementById("todaySales")
+.innerText="₹"+todayTotal.toFixed(2);
 
-document.getElementById("monthSales").innerText=
-"₹"+monthTotal.toFixed(2);
+document.getElementById("monthSales")
+.innerText="₹"+monthTotal.toFixed(2);
 
-document.getElementById("invoiceCount").innerText=
-invoices.length;
+document.getElementById("invoiceCount")
+.innerText=invoices.length;
 
-document.getElementById("outstanding").innerText=
-"₹"+outstanding.toFixed(2);
+document.getElementById("outstanding")
+.innerText="₹"+outstanding.toFixed(2);
+
+document.getElementById("accountSales")
+.innerText="₹"+monthTotal.toFixed(2);
+
+document.getElementById("creditSales")
+.innerText="₹"+outstanding.toFixed(2);
+
+document.getElementById("advanceSales")
+.innerText=
+"₹"+(monthTotal-outstanding).toFixed(2);
+
+document.getElementById("accountOutstanding")
+.innerText="₹"+outstanding.toFixed(2);
 
 }
 
@@ -882,9 +1588,10 @@ new Date().toISOString().split("T")[0];
 
 addInvoiceProduct();
 
-displaySavedInvoices();
-
 updateDashboard();
+displayInvoices();
+displayCustomers();
+displayProducts();
 
 </script>
 
