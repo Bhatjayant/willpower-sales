@@ -6,219 +6,51 @@
 <title>Willpower Sales Invoice</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#e9e9e9;color:#111}
+.app{max-width:1250px;margin:25px auto;background:#fff;padding:25px;border:1px solid #222}
+.header{display:grid;grid-template-columns:120px 1fr 310px;gap:20px;align-items:center;border-bottom:2px solid #111;padding-bottom:15px}
+.logo{text-align:center;font-weight:bold}
+.logo-mark{font-size:48px}.logo-text{font-size:11px}
+.company h1{font-size:20px;margin:0 0 8px}
+.company p,.invoice-info p{margin:4px 0;font-size:12px}
+.invoice-info{border-left:1px solid #aaa;padding-left:15px}
+.invoice-info h2{margin:0 0 12px;text-align:right}
+.invoice-row{display:flex;justify-content:space-between;margin:6px 0;gap:10px}
+.invoice-row label{font-weight:bold;font-size:12px}
+input,select{padding:7px;border:1px solid #777;font-size:13px}
+.invoice-row input,.invoice-row select{width:170px}
+.section-title{background:#111;color:#fff;padding:7px;font-size:13px;font-weight:bold;margin-top:18px}
+.parties{display:grid;grid-template-columns:1fr 1fr}
+.party{border:1px solid #333;padding:12px;min-height:145px}
+.party h3{margin:0 0 10px;font-size:13px}
+.party input{width:100%;margin-bottom:7px}
+.items{margin-top:18px;overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{border:1px solid #222;padding:7px;font-size:12px}
+th{background:#f2f2f2}
+td input{width:100%}
+.qty{width:70px!important}
+.rate{width:100px!important}
+.remove{background:#900;color:#fff;border:0;padding:6px 10px;cursor:pointer}
+.add{margin-top:10px;background:#111;color:#fff;border:0;padding:9px 18px;cursor:pointer}
+.summary{display:grid;grid-template-columns:1fr 350px;gap:20px;margin-top:18px}
+.amount-words{border:1px solid #222;padding:12px;font-size:13px}
+.totals{border:1px solid #222}
+.total-row{display:flex;justify-content:space-between;padding:9px;border-bottom:1px solid #aaa;font-size:13px}
+.grand{font-size:17px;font-weight:bold;border-bottom:none}
+.credit-period{display:none}
+.buttons{margin-top:20px}
+.buttons button{padding:11px 22px;background:#111;color:#fff;border:0;cursor:pointer}
+@media(max-width:800px){
+.header,.parties,.summary{grid-template-columns:1fr}
+.invoice-info{border-left:0;padding-left:0}
+.invoice-info h2{text-align:left}
 }
-
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #e9e9e9;
-  color: #111;
-}
-
-.app {
-  max-width: 1200px;
-  margin: 25px auto;
-  background: white;
-  padding: 25px;
-  border: 1px solid #222;
-}
-
-.header {
-  display: grid;
-  grid-template-columns: 120px 1fr 300px;
-  gap: 20px;
-  align-items: center;
-  border-bottom: 2px solid #111;
-  padding-bottom: 15px;
-}
-
-.logo {
-  text-align: center;
-  font-weight: bold;
-}
-
-.logo-mark {
-  font-size: 48px;
-}
-
-.logo-text {
-  font-size: 11px;
-}
-
-.company h1 {
-  font-size: 20px;
-  margin: 0 0 8px;
-}
-
-.company p,
-.invoice-info p {
-  margin: 4px 0;
-  font-size: 12px;
-}
-
-.invoice-info {
-  border-left: 1px solid #aaa;
-  padding-left: 15px;
-}
-
-.invoice-info h2 {
-  margin: 0 0 12px;
-  text-align: right;
-}
-
-.invoice-row {
-  display: flex;
-  justify-content: space-between;
-  margin: 6px 0;
-}
-
-.invoice-row label {
-  font-weight: bold;
-}
-
-input, select {
-  padding: 7px;
-  border: 1px solid #777;
-  font-size: 13px;
-}
-
-.invoice-row input,
-.invoice-row select {
-  width: 165px;
-}
-
-.section-title {
-  background: #111;
-  color: white;
-  padding: 7px;
-  font-size: 13px;
-  font-weight: bold;
-  margin-top: 18px;
-}
-
-.parties {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.party {
-  border: 1px solid #333;
-  padding: 12px;
-  min-height: 145px;
-}
-
-.party h3 {
-  margin: 0 0 10px;
-  font-size: 13px;
-}
-
-.party input {
-  width: 100%;
-  margin-bottom: 7px;
-}
-
-.items {
-  margin-top: 18px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
-  border: 1px solid #222;
-  padding: 9px;
-  font-size: 12px;
-}
-
-th {
-  background: #f2f2f2;
-}
-
-td input {
-  width: 100%;
-}
-
-.summary {
-  display: grid;
-  grid-template-columns: 1fr 350px;
-  gap: 20px;
-  margin-top: 18px;
-}
-
-.amount-words {
-  border: 1px solid #222;
-  padding: 12px;
-  font-size: 13px;
-}
-
-.totals {
-  border: 1px solid #222;
-}
-
-.total-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 9px;
-  border-bottom: 1px solid #aaa;
-  font-size: 13px;
-}
-
-.grand {
-  font-size: 17px;
-  font-weight: bold;
-  border-bottom: none;
-}
-
-.credit-period {
-  display: none;
-}
-
-.buttons {
-  margin-top: 20px;
-}
-
-button {
-  padding: 11px 22px;
-  background: #111;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-@media(max-width:800px) {
-  .header,
-  .parties,
-  .summary {
-    grid-template-columns: 1fr;
-  }
-
-  .invoice-info {
-    border-left: none;
-    padding-left: 0;
-  }
-
-  .invoice-info h2 {
-    text-align: left;
-  }
-}
-
-@media print {
-  body {
-    background: white;
-  }
-
-  .app {
-    margin: 0;
-    border: none;
-  }
-
-  .buttons {
-    display: none;
-  }
+@media print{
+body{background:#fff}
+.app{margin:0;border:0}
+.buttons,.add,.remove{display:none}
 }
 </style>
 </head>
@@ -227,311 +59,381 @@ button {
 
 <div class="app">
 
-  <!-- HEADER -->
-
-  <div class="header">
-
-    <div class="logo">
-      <div class="logo-mark">W</div>
-      <div class="logo-text">
-        WORLD OF WILLPOWER
-      </div>
-    </div>
-
-    <div class="company">
-      <h1>World of Willpower Private Limited</h1>
-      <p>Correspondence Address: Gayatri Farms, Khamgaon Maval</p>
-      <p>Haveli, Pune 411025, Maharashtra</p>
-      <p>CIN: U86900PN2026PTC251855</p>
-      <p>GSTIN: 27AAECW3784C1Z7</p>
-    </div>
-
-    <div class="invoice-info">
-
-      <h2>SALE INVOICE</h2>
-
-      <div class="invoice-row">
-        <label>Invoice No.</label>
-        <input id="invoiceNo" value="WWPL/RE/001">
-      </div>
-
-      <div class="invoice-row">
-        <label>Invoice Date</label>
-        <input id="invoiceDate" type="date">
-      </div>
-
-      <div class="invoice-row">
-        <label>Payment Terms</label>
-
-        <select id="paymentTerms">
-          <option>100% Advance Payment</option>
-          <option>Payment on Delivery</option>
-          <option>Credit</option>
-        </select>
-      </div>
-
-      <div class="invoice-row credit-period" id="creditPeriodRow">
-        <label>Credit Period</label>
-        <input id="creditPeriod" placeholder="e.g. 30 days">
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- PARTIES -->
-
-  <div class="section-title">SUPPLIER & BUYER</div>
-
-  <div class="parties">
-
-    <div class="party">
-
-      <h3>SUPPLIER</h3>
-
-      <input value="World of Willpower Private Limited" readonly>
-
-      <input value="Gayatri Farms, Khamgaon Maval, Haveli, Pune 411025, Maharashtra" readonly>
-
-      <input value="CIN: U86900PN2026PTC251855" readonly>
-
-      <input value="GSTIN: 27AAECW3784C1Z7" readonly>
-
-    </div>
-
-    <div class="party">
-
-      <h3>BUYER (BILLED TO)</h3>
-
-      <input id="buyerName" value="Raghavendra Enterprises">
-
-      <input id="buyerAddress"
-             value="548, LIG, 14th Cross, Navanagar, Hubballi - 580025">
-
-      <input value="Karnataka">
-
-      <input id="buyerGST" value="GSTIN: Unregistered Buyer">
-
-    </div>
-
-  </div>
-
-  <!-- PRODUCTS -->
-
-  <div class="section-title">PRODUCT DETAILS</div>
-
-  <div class="items">
-
-    <table>
-
-      <thead>
-        <tr>
-          <th>Sl. No.</th>
-          <th>Product Name & Description</th>
-          <th>HSN Code</th>
-          <th>Qty.</th>
-          <th>Packing Type</th>
-          <th>Rate / Unit<br>(Incl. GST)</th>
-          <th>Taxable Value</th>
-          <th>Amount<br>(Incl. GST)</th>
-        </tr>
-      </thead>
-
-      <tbody>
-
-        <tr>
-
-          <td>1</td>
-
-          <td>
-            <input value="Willpower Indian Cow Ghee">
-          </td>
-
-          <td>
-            <input value="04059020">
-          </td>
-
-          <td>
-            <input id="qty" type="number" value="25">
-          </td>
-
-          <td>
-            <input value="One Litre Jar">
-          </td>
-
-          <td>
-            <input id="rate" type="number" value="975">
-          </td>
-
-          <td id="taxableValue">₹23,214.29</td>
-
-          <td id="amount">₹24,375.00</td>
-
-        </tr>
-
-      </tbody>
-
-    </table>
-
-  </div>
-
-  <!-- SUMMARY -->
-
-  <div class="summary">
-
-    <div>
-
-      <div class="amount-words">
-
-        <b>Amount in Words:</b>
-
-        <div id="amountWords">
-          Twenty Four Thousand Three Hundred Seventy Five Rupees Only
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="totals">
-
-      <div class="total-row">
-        <span>Taxable Value</span>
-        <span id="taxableTotal">₹23,214.29</span>
-      </div>
-
-      <div class="total-row">
-        <span>CGST @ 2.5%</span>
-        <span id="cgst">₹580.36</span>
-      </div>
-
-      <div class="total-row">
-        <span>SGST @ 2.5%</span>
-        <span id="sgst">₹580.36</span>
-      </div>
-
-      <div class="total-row grand">
-        <span>INVOICE TOTAL</span>
-        <span id="grandTotal">₹24,375.00</span>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="buttons">
-    <button onclick="window.print()">Print / Save PDF</button>
-  </div>
+<div class="header">
+
+<div class="logo">
+<div class="logo-mark">W</div>
+<div class="logo-text">WORLD OF WILLPOWER</div>
+</div>
+
+<div class="company">
+<h1>World of Willpower Private Limited</h1>
+<p>Correspondence Address: Gayatri Farms, Khamgaon Maval</p>
+<p>Haveli, Pune 411025, Maharashtra</p>
+<p>CIN: U86900PN2026PTC251855</p>
+<p>GSTIN: 27AAECW3784C1Z7</p>
+</div>
+
+<div class="invoice-info">
+
+<h2>SALE INVOICE</h2>
+
+<div class="invoice-row">
+<label>Invoice No.</label>
+<input id="invoiceNo" value="WWPL/RE/001">
+</div>
+
+<div class="invoice-row">
+<label>Invoice Date</label>
+<input id="invoiceDate" type="date">
+</div>
+
+<div class="invoice-row">
+<label>Payment Terms</label>
+<select id="paymentTerms">
+<option>100% Advance Payment</option>
+<option>Payment on Delivery</option>
+<option>Credit</option>
+</select>
+</div>
+
+<div class="invoice-row credit-period" id="creditPeriodRow">
+<label>Credit Period</label>
+<input id="creditPeriod" placeholder="e.g. 30 days">
+</div>
+
+</div>
+</div>
+
+<div class="section-title">SUPPLIER & BUYER</div>
+
+<div class="parties">
+
+<div class="party">
+<h3>SUPPLIER</h3>
+<input value="World of Willpower Private Limited" readonly>
+<input value="Gayatri Farms, Khamgaon Maval, Haveli, Pune 411025, Maharashtra" readonly>
+<input value="CIN: U86900PN2026PTC251855" readonly>
+<input value="GSTIN: 27AAECW3784C1Z7" readonly>
+</div>
+
+<div class="party">
+<h3>BUYER (BILLED TO)</h3>
+<input id="buyerName" value="Raghavendra Enterprises">
+<input id="buyerAddress" value="548, LIG, 14th Cross, Navanagar, Hubballi - 580025">
+<input value="Karnataka">
+<input id="buyerGST" value="GSTIN: Unregistered Buyer">
+</div>
 
 </div>
 
+<div class="section-title">PRODUCT DETAILS</div>
+
+<div class="items">
+
+<table>
+
+<thead>
+<tr>
+<th>Sl. No.</th>
+<th>Product Name & Description</th>
+<th>HSN Code</th>
+<th>Qty.</th>
+<th>Packing Type</th>
+<th>Rate / Unit<br>(Incl. GST)</th>
+<th>Taxable Value</th>
+<th>Amount<br>(Incl. GST)</th>
+<th></th>
+</tr>
+</thead>
+
+<tbody id="productRows">
+
+<tr>
+<td>1</td>
+
+<td>
+<input value="Willpower Indian Cow Ghee">
+</td>
+
+<td>
+<input value="04059020">
+</td>
+
+<td>
+<input class="qty" type="number" value="25" min="0">
+</td>
+
+<td>
+<input value="One Litre Jar">
+</td>
+
+<td>
+<input class="rate" type="number" value="975" min="0">
+</td>
+
+<td class="taxable">₹0.00</td>
+
+<td class="amount">₹0.00</td>
+
+<td>
+<button class="remove" onclick="removeProduct(this)">X</button>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<button class="add" onclick="addProduct()">+ Add Product</button>
+
+</div>
+
+<div class="summary">
+
+<div>
+
+<div class="amount-words">
+<b>Amount in Words:</b>
+<div id="amountWords"></div>
+</div>
+
+</div>
+
+<div class="totals">
+
+<div class="total-row">
+<span>Taxable Value</span>
+<span id="taxableTotal">₹0.00</span>
+</div>
+
+<div class="total-row">
+<span>CGST @ 2.5%</span>
+<span id="cgst">₹0.00</span>
+</div>
+
+<div class="total-row">
+<span>SGST @ 2.5%</span>
+<span id="sgst">₹0.00</span>
+</div>
+
+<div class="total-row grand">
+<span>INVOICE TOTAL</span>
+<span id="grandTotal">₹0.00</span>
+</div>
+
+</div>
+
+</div>
+
+<div class="buttons">
+<button onclick="window.print()">Print / Save PDF</button>
+</div>
+
+</div>
 
 <script>
 
-const paymentTerms = document.getElementById("paymentTerms");
-const creditPeriodRow = document.getElementById("creditPeriodRow");
+const paymentTerms=document.getElementById("paymentTerms");
+const creditPeriodRow=document.getElementById("creditPeriodRow");
 
-paymentTerms.addEventListener("change", function () {
+paymentTerms.addEventListener("change",function(){
 
-  if (this.value === "Credit") {
-    creditPeriodRow.style.display = "flex";
-  } else {
-    creditPeriodRow.style.display = "none";
-    document.getElementById("creditPeriod").value = "";
-  }
+if(this.value==="Credit"){
+creditPeriodRow.style.display="flex";
+}else{
+creditPeriodRow.style.display="none";
+document.getElementById("creditPeriod").value="";
+}
 
 });
 
 
-function numberToWords(num) {
+function addProduct(){
 
-  const ones = [
-    "", "One", "Two", "Three", "Four", "Five",
-    "Six", "Seven", "Eight", "Nine", "Ten",
-    "Eleven", "Twelve", "Thirteen", "Fourteen",
-    "Fifteen", "Sixteen", "Seventeen", "Eighteen",
-    "Nineteen"
-  ];
+const tbody=document.getElementById("productRows");
 
-  const tens = [
-    "", "", "Twenty", "Thirty", "Forty",
-    "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"
-  ];
+const row=document.createElement("tr");
 
-  function convert(n) {
+row.innerHTML=`
 
-    if (n < 20) return ones[n];
+<td></td>
 
-    if (n < 100)
-      return tens[Math.floor(n / 10)] +
-        (n % 10 ? " " + ones[n % 10] : "");
+<td>
+<input placeholder="Product name">
+</td>
 
-    if (n < 1000)
-      return ones[Math.floor(n / 100)] +
-        " Hundred" +
-        (n % 100 ? " " + convert(n % 100) : "");
+<td>
+<input placeholder="HSN">
+</td>
 
-    if (n < 100000)
-      return convert(Math.floor(n / 1000)) +
-        " Thousand" +
-        (n % 1000 ? " " + convert(n % 1000) : "");
+<td>
+<input class="qty" type="number" value="1" min="0">
+</td>
 
-    if (n < 10000000)
-      return convert(Math.floor(n / 100000)) +
-        " Lakh" +
-        (n % 100000 ? " " + convert(n % 100000) : "");
+<td>
+<input placeholder="Packing">
+</td>
 
-    return convert(Math.floor(n / 10000000)) +
-      " Crore" +
-      (n % 10000000 ? " " + convert(n % 10000000) : "");
-  }
+<td>
+<input class="rate" type="number" value="0" min="0">
+</td>
 
-  return convert(Math.floor(num));
+<td class="taxable">₹0.00</td>
+
+<td class="amount">₹0.00</td>
+
+<td>
+<button class="remove" onclick="removeProduct(this)">X</button>
+</td>
+
+`;
+
+tbody.appendChild(row);
+
+renumberRows();
+
+attachCalculations();
+
+calculateInvoice();
+
 }
 
 
-function calculateInvoice() {
+function removeProduct(button){
 
-  const qty = Number(document.getElementById("qty").value) || 0;
-  const rate = Number(document.getElementById("rate").value) || 0;
+const rows=document.querySelectorAll("#productRows tr");
 
-  const total = qty * rate;
-  const taxable = total / 1.05;
-  const cgst = taxable * 0.025;
-  const sgst = taxable * 0.025;
+if(rows.length===1){
+alert("At least one product is required.");
+return;
+}
 
-  document.getElementById("taxableValue").innerText =
-    "₹" + taxable.toFixed(2);
+button.closest("tr").remove();
 
-  document.getElementById("amount").innerText =
-    "₹" + total.toFixed(2);
+renumberRows();
 
-  document.getElementById("taxableTotal").innerText =
-    "₹" + taxable.toFixed(2);
+calculateInvoice();
 
-  document.getElementById("cgst").innerText =
-    "₹" + cgst.toFixed(2);
-
-  document.getElementById("sgst").innerText =
-    "₹" + sgst.toFixed(2);
-
-  document.getElementById("grandTotal").innerText =
-    "₹" + total.toFixed(2);
-
-  document.getElementById("amountWords").innerText =
-    numberToWords(total) + " Rupees Only";
 }
 
 
-document.getElementById("qty")
-  .addEventListener("input", calculateInvoice);
+function renumberRows(){
 
-document.getElementById("rate")
-  .addEventListener("input", calculateInvoice);
+const rows=document.querySelectorAll("#productRows tr");
+
+rows.forEach((row,index)=>{
+row.cells[0].innerText=index+1;
+});
+
+}
 
 
-document.getElementById("invoiceDate").value =
-  new Date().toISOString().split("T")[0];
+function attachCalculations(){
+
+document.querySelectorAll(".qty,.rate").forEach(input=>{
+
+input.removeEventListener("input",calculateInvoice);
+
+input.addEventListener("input",calculateInvoice);
+
+});
+
+}
+
+
+function numberToWords(num){
+
+const ones=[
+"","One","Two","Three","Four","Five","Six","Seven","Eight","Nine",
+"Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen",
+"Seventeen","Eighteen","Nineteen"
+];
+
+const tens=[
+"","","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"
+];
+
+function convert(n){
+
+if(n<20) return ones[n];
+
+if(n<100)
+return tens[Math.floor(n/10)]+
+(n%10?" "+ones[n%10]:"");
+
+if(n<1000)
+return ones[Math.floor(n/100)]+" Hundred"+
+(n%100?" "+convert(n%100):"");
+
+if(n<100000)
+return convert(Math.floor(n/1000))+" Thousand"+
+(n%1000?" "+convert(n%1000):"");
+
+if(n<10000000)
+return convert(Math.floor(n/100000))+" Lakh"+
+(n%100000?" "+convert(n%100000):"");
+
+return convert(Math.floor(n/10000000))+" Crore"+
+(n%10000000?" "+convert(n%10000000):"");
+}
+
+return convert(Math.floor(num));
+
+}
+
+
+function calculateInvoice(){
+
+let total=0;
+
+document.querySelectorAll("#productRows tr").forEach(row=>{
+
+const qty=Number(row.querySelector(".qty").value)||0;
+const rate=Number(row.querySelector(".rate").value)||0;
+
+const amount=qty*rate;
+const taxable=amount/1.05;
+
+row.querySelector(".taxable").innerText=
+"₹"+taxable.toFixed(2);
+
+row.querySelector(".amount").innerText=
+"₹"+amount.toFixed(2);
+
+total+=amount;
+
+});
+
+const taxableTotal=total/1.05;
+const cgst=taxableTotal*0.025;
+const sgst=taxableTotal*0.025;
+
+document.getElementById("taxableTotal").innerText=
+"₹"+taxableTotal.toFixed(2);
+
+document.getElementById("cgst").innerText=
+"₹"+cgst.toFixed(2);
+
+document.getElementById("sgst").innerText=
+"₹"+sgst.toFixed(2);
+
+document.getElementById("grandTotal").innerText=
+"₹"+total.toFixed(2);
+
+document.getElementById("amountWords").innerText=
+numberToWords(total)+" Rupees Only";
+
+}
+
+
+document.getElementById("invoiceDate").value=
+new Date().toISOString().split("T")[0];
+
+renumberRows();
+
+attachCalculations();
 
 calculateInvoice();
 
