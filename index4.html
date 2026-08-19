@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Willpower Accounts V4</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f2f2f2;color:#111}
+.app{max-width:1400px;margin:auto;background:#fff;min-height:100vh}
+
+.topbar{
+background:#111;color:#fff;padding:15px 20px;
+display:flex;justify-content:space-between;align-items:center
+}
+.brand{font-size:21px;font-weight:bold}
+.subtitle{font-size:11px;opacity:.7;margin-top:3px}
+
+.menu{display:flex;gap:5px;flex-wrap:wrap}
+.menu button{background:#333;color:#fff;border:0;padding:9px 13px;cursor:pointer}
+.menu button.active,.menu button:hover{background:#fff;color:#111}
+
+.page{display:none;padding:22px}
+.page.active{display:block}
+.page-title{font-size:22px;margin:0 0 18px}
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-bottom:20px
+}
+
+.card{border:1px solid #ccc;padding:18px;background:#fff}
+.card-title{font-size:11px;color:#666}
+.card-value{font-size:24px;font-weight:bold;margin-top:8px}
+
+.section{border:1px solid #ccc;margin-bottom:18px}
+.section-title{
+background:#111;color:#fff;padding:9px 12px;
+font-size:13px;font-weight:bold
+}
+.section-body{padding:15px}
+
+.form-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px
+}
+
+.form-group label{
+display:block;font-size:11px;font-weight:bold;margin-bottom:5px
+}
+
+input,select{
+width:100%;
+padding:9px;
+border:1px solid #aaa;
+font-size:13px
+}
+
+button{
+border:0;background:#111;color:#fff;
+padding:9px 15px;cursor:pointer
+}
+button:hover{opacity:.85}
+.btn-success{background:#176117}
+.btn-danger{background:#900}
+.btn-secondary{background:#555}
+
+.search{margin-bottom:12px}
+.search input{max-width:450px}
+
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th,td{
+border:1px solid #ccc;
+padding:8px;
+font-size:12px
+}
+th{background:#eee}
+
+.amount{text-align:right;white-space:nowrap}
+.overdue{font-weight:bold}
+.zero{opacity:.5}
+
+.badge{
+display:inline-block;
+padding:4px 7px;
+font-size:10px;
+font-weight:bold;
+border:1px solid #aaa
+}
+
+.ageing-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px
+}
+
+.age-card{
+border:1px solid #ccc;
+padding:15px
+}
+
+.age-title{
+font-size:11px;
+color:#666
+}
+
+.age-value{
+font-size:20px;
+font-weight:bold;
+margin-top:7px
+}
+
+.ledger-summary{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin:15px 0
+}
+
+.ledger-card{
+border:1px solid #ccc;
+padding:12px
+}
+
+.small{
+font-size:11px;
+color:#666
+}
+
+.big{
+font-size:20px;
+font-weight:bold;
+margin-top:5px
+}
+
+@media(max-width:900px){
+.dashboard,.ageing-grid{grid-template-columns:1fr 1fr}
+.form-grid{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:600px){
+.topbar{display:block}
+.menu{margin-top:12px}
+.menu button{flex:1}
+.dashboard,.ageing-grid,.form-grid,.ledger-summary{
+grid-template-columns:1fr
+}
+.page{padding:12px}
+}
+
+@media print{
+.topbar,.no-print{display:none!important}
+.page{display:none!important}
+#accountsPage{display:block!important}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="topbar">
+
+<div>
+<div class="brand">WILLPOWER SALES & ACCOUNTS</div>
+<div class="subtitle">Receivables • Collections • Customer Ledger</div>
+</div>
+
+<div class="menu">
+
+<button class="active"
+onclick="openPage('accountsPage',this)">
+Accounts
+</button>
+
+<button onclick="openPage('receivablesPage',this)">
+Receivables
+</button>
+
+<button onclick="openPage('collectionsPage',this)">
+Collections
+</button>
+
+<button onclick="openPage('ledgerPage',this)">
+Customer Ledger
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ================= ACCOUNTS ================= -->
+
+<div id="accountsPage" class="page active">
+
+<h2 class="page-title">Accounts Dashboard</h2>
+
+<div class="dashboard">
+
+<div class="card">
+<div class="card-title">TOTAL CREDIT SALES</div>
+<div class="card-value" id="totalCredit">₹0.00</div>
+</div>
+
+<div class="card">
+<div class="card-title">TOTAL COLLECTIONS</div>
+<div class="card-value" id="totalCollections">₹0.00</div>
+</div>
+
+<div class="card">
+<div class="card-title">TOTAL OUTSTANDING</div>
+<div class="card-value" id="totalOutstanding">₹0.00</div>
+</div>
+
+<div class="card">
+<div class="card-title">OVERDUE</div>
+<div class="card-value" id="totalOverdue">₹0.00</div>
+</div>
+
+</div>
+
+
+<div class="section">
+
+<div class="section-title">
+RECEIVABLE AGEING
+</div>
+
+<div class="section-body">
+
+<div class="ageing-grid">
+
+<div class="age-card">
+<div class="age-title">0–30 DAYS</div>
+<div class="age-value" id="age0">₹0.00</div>
+</div>
+
+<div class="age-card">
+<div class="age-title">31–60 DAYS</div>
+<div class="age-value" id="age31">₹0.00</div>
+</div>
+
+<div class="age-card">
+<div class="age-title">61–90 DAYS</div>
+<div class="age-value" id="age61">₹0.00</div>
+</div>
+
+<div class="age-card">
+<div class="age-title">90+ DAYS</div>
+<div class="age-value" id="age90">₹0.00</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= RECEIVABLES ================= -->
+
+<div id="receivablesPage" class="page">
+
+<h2 class="page-title">Receivables</h2>
+
+<div class="search">
+
+<input
+id="receivableSearch"
+placeholder="Search customer or invoice..."
+oninput="displayReceivables()">
+
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Invoice</th>
+<th>Date</th>
+<th>Customer</th>
+<th>Credit Amount</th>
+<th>Received</th>
+<th>Outstanding</th>
+<th>Age</th>
+<th>Ageing</th>
+<th>Action</th>
+</tr>
+
+</thead>
+
+<tbody id="receivableTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- ================= COLLECTIONS ================= -->
+
+<div id="collectionsPage" class="page">
+
+<h2 class="page-title">Collections</h2>
+
+
+<div class="section">
+
+<div class="section-title">
+RECORD PAYMENT
+</div>
+
+<div class="section-body">
+
+<div class="form-grid">
+
+<div class="form-group">
+
+<label>Customer</label>
+
+<select
+id="paymentCustomer"
+onchange="loadCustomerInvoicesForPayment()">
+
+<option value="">
+-- Select Customer --
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Invoice</label>
+
+<select id="paymentInvoice">
+
+<option value="">
+-- Select Invoice --
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Payment Date</label>
+
+<input id="paymentDate" type="date">
+
+</div>
+
+
+<div class="form-group">
+
+<label>Amount Received</label>
+
+<input id="paymentAmount" type="number" min="0">
+
+</div>
+
+
+<div class="form-group">
+
+<label>Payment Mode</label>
+
+<select id="paymentMode">
+
+<option>Cash</option>
+<option>Bank Transfer</option>
+<option>UPI</option>
+<option>Cheque</option>
+<option>Other</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Reference Number</label>
+
+<input
+id="paymentReference"
+placeholder="UTR / Cheque / Reference">
+
+</div>
+
+</div>
+
+<br>
+
+<button class="btn-success"
+onclick="recordPayment()">
+Record Payment
+</button>
+
+</div>
+
+</div>
+
+
+<div class="section">
+
+<div class="section-title">
+COLLECTION REGISTER
+</div>
+
+<div class="section-body">
+
+<div class="search">
+
+<input
+id="collectionSearch"
+placeholder="Search customer, invoice or reference..."
+oninput="displayCollections()">
+
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Date</th>
+<th>Customer</th>
+<th>Invoice</th>
+<th>Amount</th>
+<th>Mode</th>
+<th>Reference</th>
+<th>Action</th>
+</tr>
+
+</thead>
+
+<tbody id="collectionTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= LEDGER ================= -->
+
+<div id="ledgerPage" class="page">
+
+<h2 class="page-title">Customer Ledger</h2>
+
+<div class="section">
+
+<div class="section-title">
+SELECT CUSTOMER
+</div>
+
+<div class="section-body">
+
+<select
+id="ledgerCustomer"
+onchange="displayLedger()"
+style="max-width:450px">
+
+<option value="">
+-- Select Customer --
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div id="ledgerContent">
+
+<div class="ledger-summary">
+
+<div class="ledger-card">
+<div class="small">TOTAL CREDIT</div>
+<div class="big" id="ledgerCredit">₹0.00</div>
+</div>
+
+<div class="ledger-card">
+<div class="small">TOTAL RECEIVED</div>
+<div class="big" id="ledgerReceived">₹0.00</div>
+</div>
+
+<div class="ledger-card">
+<div class="small">OUTSTANDING</div>
+<div class="big" id="ledgerOutstanding">₹0.00</div>
+</div>
+
+</div>
+
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Date</th>
+<th>Reference</th>
+<th>Description</th>
+<th>Debit</th>
+<th>Credit</th>
+<th>Balance</th>
+</tr>
+
+</thead>
+
+<tbody id="ledgerTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+let invoices =
+JSON.parse(
+localStorage.getItem("willpowerInvoices") || "[]"
+);
+
+let payments =
+JSON.parse(
+localStorage.getItem("willpowerPayments") || "[]"
+);
+
+let customers =
+JSON.parse(
+localStorage.getItem("willpowerCustomers") || "[]"
+);
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function openPage(pageId,button){
+
+document
+.querySelectorAll(".page")
+.forEach(p=>p.classList.remove("active"));
+
+document
+.getElementById(pageId)
+.classList.add("active");
+
+document
+.querySelectorAll(".menu button")
+.forEach(b=>b.classList.remove("active"));
+
+if(button){
+button.classList.add("active");
+}
+
+if(pageId==="accountsPage"){
+updateAccounts();
+}
+
+if(pageId==="receivablesPage"){
+displayReceivables();
+}
+
+if(pageId==="collectionsPage"){
+prepareCollections();
+}
+
+if(pageId==="ledgerPage"){
+prepareLedger();
+}
+
+}
+
+
+/* =========================
+   DATE HELPERS
+========================= */
+
+function daysOld(date){
+
+const today =
+new Date();
+
+today.setHours(0,0,0,0);
+
+const d =
+new Date(date);
+
+d.setHours(0,0,0,0);
+
+return Math.max(
+0,
+Math.floor(
+(today-d)/(1000*60*60*24)
+)
+);
+
+}
+
+
+function ageingBucket(days){
+
+if(days<=30)
+return "0–30 Days";
+
+if(days<=60)
+return "31–60 Days";
+
+if(days<=90)
+return "61–90 Days";
+
+return "90+ Days";
+
+}
+
+
+/* =========================
+   INVOICE RECEIVED
+========================= */
+
+function invoiceReceived(invoiceId){
+
+let total=0;
+
+payments.forEach(payment=>{
+
+if(
+String(payment.invoiceId)
+===
+String(invoiceId)
+){
+
+total +=
+Number(payment.amount)||0;
+
+}
+
+});
+
+return total;
+
+}
+
+
+/* =========================
+   INVOICE OUTSTANDING
+========================= */
+
+function invoiceOutstanding(invoice){
+
+const received =
+invoiceReceived(invoice.id);
+
+return Math.max(
+0,
+(Number(invoice.amount)||0)-received
+);
+
+}
+
+
+/* =========================
+   CREDIT INVOICES
+========================= */
+
+function creditInvoices(){
+
+return invoices.filter(invoice=>{
+
+return invoice.payment==="Credit" &&
+invoice.status!=="Cancelled";
+
+});
+
+}
+
+
+/* =========================
+   ACCOUNTS TOTALS
+========================= */
+
+function accountTotals(){
+
+let credit=0;
+let collections=0;
+let outstanding=0;
+let overdue=0;
+
+let age0=0;
+let age31=0;
+let age61=0;
+let age90=0;
+
+
+creditInvoices().forEach(invoice=>{
+
+const amount =
+Number(invoice.amount)||0;
+
+const balance =
+invoiceOutstanding(invoice);
+
+credit += amount;
+
+outstanding += balance;
+
+if(balance>0){
+
+const age =
+daysOld(invoice.date);
+
+if(age<=30){
+age0 += balance;
+}
+
+else if(age<=60){
+age31 += balance;
+}
+
+else if(age<=90){
+age61 += balance;
+}
+
+else{
+age90 += balance;
+}
+
+if(age>30){
+overdue += balance;
+}
+
+}
+
+});
+
+
+payments.forEach(payment=>{
+
+collections +=
+Number(payment.amount)||0;
+
+});
+
+
+return{
+credit,
+collections,
+outstanding,
+overdue,
+age0,
+age31,
+age61,
+age90
+};
+
+}
+
+
+/* =========================
+   ACCOUNT DASHBOARD
+========================= */
+
+function updateAccounts(){
+
+const t =
+accountTotals();
+
+document.getElementById("totalCredit")
+.innerText =
+"₹"+t.credit.toFixed(2);
+
+document.getElementById("totalCollections")
+.innerText =
+"₹"+t.collections.toFixed(2);
+
+document.getElementById("totalOutstanding")
+.innerText =
+"₹"+t.outstanding.toFixed(2);
+
+document.getElementById("totalOverdue")
+.innerText =
+"₹"+t.overdue.toFixed(2);
+
+document.getElementById("age0")
+.innerText =
+"₹"+t.age0.toFixed(2);
+
+document.getElementById("age31")
+.innerText =
+"₹"+t.age31.toFixed(2);
+
+document.getElementById("age61")
+.innerText =
+"₹"+t.age61.toFixed(2);
+
+document.getElementById("age90")
+.innerText =
+"₹"+t.age90.toFixed(2);
+
+}
+
+
+/* =========================
+   RECEIVABLES
+========================= */
+
+function displayReceivables(){
+
+const tbody =
+document.getElementById(
+"receivableTable"
+);
+
+const search =
+(
+document.getElementById(
+"receivableSearch"
+)?.value||""
+).toLowerCase();
+
+tbody.innerHTML="";
+
+
+creditInvoices().forEach(invoice=>{
+
+const outstanding =
+invoiceOutstanding(invoice);
+
+if(outstanding<=0)
+return;
+
+if(
+search &&
+!(invoice.number||"")
+.toLowerCase()
+.includes(search) &&
+!(invoice.customer||"")
+.toLowerCase()
+.includes(search)
+){
+return;
+}
+
+const age =
+daysOld(invoice.date);
+
+const row =
+document.createElement("tr");
+
+row.innerHTML=`
+
+<td>${safe(invoice.number)}</td>
+
+<td>${safe(invoice.date)}</td>
+
+<td>${safe(invoice.customer)}</td>
+
+<td class="amount">
+₹${Number(invoice.amount).toFixed(2)}
+</td>
+
+<td class="amount">
+₹${invoiceReceived(invoice.id).toFixed(2)}
+</td>
+
+<td class="amount outstanding">
+₹${outstanding.toFixed(2)}
+</td>
+
+<td>${age} days</td>
+
+<td>
+<span class="badge">
+${ageingBucket(age)}
+</span>
+</td>
+
+<td>
+<button
+onclick="selectInvoiceForPayment(${invoice.id})">
+Receive Payment
+</button>
+</td>
+
+`;
+
+tbody.appendChild(row);
+
+});
+
+}
+
+
+/* =========================
+   CUSTOMER LIST
+========================= */
+
+function populateCustomerSelects(){
+
+const selects=[
+document.getElementById("paymentCustomer"),
+document.getElementById("ledgerCustomer")
+];
+
+selects.forEach(select=>{
+
+if(!select)return;
+
+select.innerHTML=
+'<option value="">-- Select Customer --</option>';
+
+customers.forEach((customer,index)=>{
+
+const option=
+document.createElement("option");
+
+option.value=index;
+
+option.textContent=
+customer.name;
+
+select.appendChild(option);
+
+});
+
+});
+
+}
+
+
+/* =========================
+   PAYMENT INVOICE LIST
+========================= */
+
+function loadCustomerInvoicesForPayment(){
+
+const customerIndex =
+document.getElementById(
+"paymentCustomer"
+).value;
+
+const invoiceSelect =
+document.getElementById(
+"paymentInvoice"
+);
+
+invoiceSelect.innerHTML=
+'<option value="">-- Select Invoice --</option>';
+
+if(customerIndex==="")
+return;
+
+
+creditInvoices().forEach(invoice=>{
+
+if(
+String(invoice.customerIndex)
+===
+String(customerIndex)
+){
+
+const outstanding =
+invoiceOutstanding(invoice);
+
+if(outstanding<=0)
+return;
+
+const option =
+document.createElement("option");
+
+option.value =
+invoice.id;
+
+option.textContent =
+invoice.number+
+" — Outstanding ₹"+
+outstanding.toFixed(2);
+
+invoiceSelect.appendChild(option);
+
+}
+
+});
+
+}
+
+
+/* =========================
+   SELECT RECEIVABLE
+========================= */
+
+function selectInvoiceForPayment(id){
+
+const invoice =
+invoices.find(
+i=>String(i.id)===String(id)
+);
+
+if(!invoice)
+return;
+
+openPage("collectionsPage");
+
+const customerIndex =
+invoice.customerIndex;
+
+document.getElementById(
+"paymentCustomer"
+).value =
+customerIndex;
+
+loadCustomerInvoicesForPayment();
+
+document.getElementById(
+"paymentInvoice"
+).value =
+invoice.id;
+
+document.getElementById(
+"paymentAmount"
+).value =
+invoiceOutstanding(invoice).toFixed(2);
+
+}
+
+
+/* =========================
+   RECORD PAYMENT
+========================= */
+
+function recordPayment(){
+
+const invoiceId =
+document.getElementById(
+"paymentInvoice"
+).value;
+
+const customerIndex =
+document.getElementById(
+"paymentCustomer"
+).value;
+
+const amount =
+Number(
+document.getElementById(
+"paymentAmount"
+).value
+)||0;
+
+
+if(customerIndex===""){
+
+alert("Select customer.");
+
+return;
+
+}
+
+if(invoiceId===""){
+
+alert("Select invoice.");
+
+return;
+
+}
+
+if(amount<=0){
+
+alert("Enter payment amount.");
+
+return;
+
+}
+
+
+const invoice =
+invoices.find(
+i=>String(i.id)===String(invoiceId)
+);
+
+if(!invoice){
+
+alert("Invoice not found.");
+
+return;
+
+}
+
+
+const outstanding =
+invoiceOutstanding(invoice);
+
+
+if(amount>outstanding){
+
+alert(
+"Payment cannot exceed invoice outstanding of ₹"+
+outstanding.toFixed(2)
+);
+
+return;
+
+}
+
+
+const payment={
+
+id:Date.now(),
+
+invoiceId:invoice.id,
+
+invoiceNumber:invoice.number,
+
+customerIndex:Number(customerIndex),
+
+customer:invoice.customer,
+
+date:
+document.getElementById(
+"paymentDate"
+).value,
+
+amount:amount,
+
+mode:
+document.getElementById(
+"paymentMode"
+).value,
+
+reference:
+document.getElementById(
+"paymentReference"
+).value
+
+};
+
+
+payments.push(payment);
+
+
+localStorage.setItem(
+"willpowerPayments",
+JSON.stringify(payments)
+);
+
+
+document.getElementById(
+"paymentAmount"
+).value="";
+
+document.getElementById(
+"paymentReference"
+).value="";
+
+
+loadCustomerInvoicesForPayment();
+
+displayCollections();
+
+displayReceivables();
+
+updateAccounts();
+
+displayLedger();
+
+alert("Payment recorded successfully.");
+
+}
+
+
+/* =========================
+   COLLECTION REGISTER
+========================= */
+
+function displayCollections(){
+
+const tbody =
+document.getElementById(
+"collectionTable"
+);
+
+const search =
+(
+document.getElementById(
+"collectionSearch"
+)?.value||""
+).toLowerCase();
+
+tbody.innerHTML="";
+
+
+payments
+.slice()
+.reverse()
+.forEach((payment,index)=>{
+
+if(
+search &&
+!(payment.customer||"")
+.toLowerCase()
+.includes(search) &&
+!(payment.invoiceNumber||"")
+.toLowerCase()
+.includes(search) &&
+!(payment.reference||"")
+.toLowerCase()
+.includes(search)
+){
+return;
+}
+
+
+const row =
+document.createElement("tr");
+
+row.innerHTML=`
+
+<td>${safe(payment.date)}</td>
+
+<td>${safe(payment.customer)}</td>
+
+<td>${safe(payment.invoiceNumber)}</td>
+
+<td class="amount">
+₹${Number(payment.amount).toFixed(2)}
+</td>
+
+<td>${safe(payment.mode)}</td>
+
+<td>${safe(payment.reference)}</td>
+
+<td>
+<button
+class="btn-danger"
+onclick="deletePayment(${payment.id})">
+Delete
+</button>
+</td>
+
+`;
+
+tbody.appendChild(row);
+
+});
+
+}
+
+
+/* =========================
+   DELETE PAYMENT
+========================= */
+
+function deletePayment(id){
+
+const payment =
+payments.find(
+p=>String(p.id)===String(id)
+);
+
+if(!payment)
+return;
+
+if(
+!confirm(
+"Delete this payment entry?"
+)
+){
+return;
+}
+
+
+payments =
+payments.filter(
+p=>String(p.id)!==String(id)
+);
+
+
+localStorage.setItem(
+"willpowerPayments",
+JSON.stringify(payments)
+);
+
+
+displayCollections();
+
+displayReceivables();
+
+updateAccounts();
+
+displayLedger();
+
+}
+
+
+/* =========================
+   LEDGER
+========================= */
+
+function prepareLedger(){
+
+populateCustomerSelects();
+
+const select =
+document.getElementById(
+"ledgerCustomer"
+);
+
+if(select.value){
+displayLedger();
+}
+
+}
+
+
+function displayLedger(){
+
+const index =
+document.getElementById(
+"ledgerCustomer"
+).value;
+
+const tbody =
+document.getElementById(
+"ledgerTable"
+);
+
+tbody.innerHTML="";
+
+document.getElementById(
+"ledgerCredit"
+).innerText="₹0.00";
+
+document.getElementById(
+"ledgerReceived"
+).innerText="₹0.00";
+
+document.getElementById(
+"ledgerOutstanding"
+).innerText="₹0.00";
+
+
+if(index==="")
+return;
+
+
+const entries=[];
+
+let totalCredit=0;
+let totalReceived=0;
+
+
+creditInvoices().forEach(invoice=>{
+
+if(
+String(invoice.customerIndex)
+===
+String(index)
+){
+
+entries.push({
+
+date:invoice.date,
+
+reference:invoice.number,
+
+description:"Credit Invoice",
+
+debit:Number(invoice.amount)||0,
+
+credit:0
+
+});
+
+totalCredit +=
+Number(invoice.amount)||0;
+
+}
+
+});
+
+
+payments.forEach(payment=>{
+
+if(
+String(payment.customerIndex)
+===
+String(index)
+){
+
+entries.push({
+
+date:payment.date,
+
+reference:
+payment.invoiceNumber||
+payment.reference||
+"",
+
+description:"Payment Received",
+
+debit:0,
+
+credit:Number(payment.amount)||0
+
+});
+
+totalReceived +=
+Number(payment.amount)||0;
+
+}
+
+});
+
+
+entries.sort(
+(a,b)=>
+new Date(a.date)-
+new Date(b.date)
+);
+
+
+let balance=0;
+
+
+entries.forEach(entry=>{
+
+balance += entry.debit;
+balance -= entry.credit;
+
+
+const row =
+document.createElement("tr");
+
+row.innerHTML=`
+
+<td>${safe(entry.date)}</td>
+
+<td>${safe(entry.reference)}</td>
+
+<td>${safe(entry.description)}</td>
+
+<td class="amount">
+₹${entry.debit.toFixed(2)}
+</td>
+
+<td class="amount">
+₹${entry.credit.toFixed(2)}
+</td>
+
+<td class="amount">
+₹${balance.toFixed(2)}
+</td>
+
+`;
+
+tbody.appendChild(row);
+
+});
+
+
+document.getElementById(
+"ledgerCredit"
+).innerText=
+"₹"+totalCredit.toFixed(2);
+
+document.getElementById(
+"ledgerReceived"
+).innerText=
+"₹"+totalReceived.toFixed(2);
+
+document.getElementById(
+"ledgerOutstanding"
+).innerText=
+"₹"+Math.max(
+0,
+totalCredit-totalReceived
+).toFixed(2);
+
+}
+
+
+/* =========================
+   SAFE DISPLAY
+========================= */
+
+function safe(value){
+
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;");
+
+}
+
+
+/* =========================
+   INITIALISE
+========================= */
+
+document.getElementById(
+"paymentDate"
+).value =
+new Date()
+.toISOString()
+.split("T")[0];
+
+populateCustomerSelects();
+
+updateAccounts();
+
+displayReceivables();
+
+displayCollections();
+
+</script>
+
+</body>
+</html>
