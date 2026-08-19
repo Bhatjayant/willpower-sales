@@ -34,22 +34,22 @@ font-weight:bold;
 margin-top:18px
 }
 
-.customer-master{
+.master{
 border:1px solid #333;
 padding:15px;
 }
 
-.customer-form{
+.form-grid{
 display:grid;
-grid-template-columns:repeat(3,1fr);
+grid-template-columns:repeat(4,1fr);
 gap:10px;
 }
 
-.customer-form input{
+.form-grid input{
 width:100%;
 }
 
-.customer-form button{
+.master button{
 padding:9px 18px;
 background:#111;
 color:#fff;
@@ -57,12 +57,14 @@ border:0;
 cursor:pointer;
 }
 
-.customer-list{
-margin-top:15px;
+.master select{
+width:100%;
+margin-top:12px;
 }
 
-.customer-list select{
-width:100%;
+.message{
+font-size:12px;
+margin-top:8px;
 }
 
 .parties{
@@ -104,7 +106,9 @@ font-size:12px;
 
 th{background:#f2f2f2}
 
-td input{width:100%}
+td input{
+width:100%;
+}
 
 .qty{width:70px!important}
 .rate{width:100px!important}
@@ -173,11 +177,6 @@ border:0;
 cursor:pointer
 }
 
-.message{
-font-size:12px;
-margin-top:8px;
-}
-
 @media(max-width:800px){
 
 .app{
@@ -200,7 +199,7 @@ padding-left:0
 text-align:left
 }
 
-.customer-form{
+.form-grid{
 grid-template-columns:1fr
 }
 }
@@ -209,7 +208,9 @@ grid-template-columns:1fr
 
 body{background:#fff}
 .app{margin:0;border:0}
+
 .customer-master,
+.product-master,
 .buttons,
 .add,
 .remove{
@@ -256,16 +257,21 @@ display:none
 
 <div class="invoice-row">
 <label>Payment Terms</label>
+
 <select id="paymentTerms">
 <option>100% Advance Payment</option>
 <option>Payment on Delivery</option>
 <option>Credit</option>
 </select>
+
 </div>
 
 <div class="invoice-row credit-period" id="creditPeriodRow">
+
 <label>Credit Period</label>
+
 <input id="creditPeriod" placeholder="e.g. 30 days">
+
 </div>
 
 </div>
@@ -276,9 +282,9 @@ display:none
 
 <div class="section-title">CUSTOMER MASTER</div>
 
-<div class="customer-master">
+<div class="master customer-master">
 
-<div class="customer-form">
+<div class="form-grid">
 
 <input id="newCustomerName" placeholder="Customer Name">
 
@@ -296,15 +302,48 @@ display:none
 
 <div class="message" id="customerMessage"></div>
 
-<div class="customer-list">
-
-<label><b>Select Customer for Invoice</b></label>
-
 <select id="customerSelect">
-<option value="">-- Select Customer --</option>
+
+<option value="">-- Select Customer for Invoice --</option>
+
 </select>
 
 </div>
+
+
+<!-- PRODUCT MASTER -->
+
+<div class="section-title">PRODUCT MASTER</div>
+
+<div class="master product-master">
+
+<div class="form-grid">
+
+<input id="newProductName" placeholder="Product Name">
+
+<input id="newProductHSN" placeholder="HSN Code">
+
+<input id="newProductPacking" placeholder="Packing Type">
+
+<input id="newProductGST" type="number" value="5" placeholder="GST %">
+
+<input id="newProductRate" type="number" placeholder="Rate / Unit Incl. GST">
+
+<input id="newProductMfg" type="date" title="Manufacturing Date">
+
+<input id="newProductExp" type="date" title="Expiry Date">
+
+<button onclick="addProductMaster()">+ Add Product</button>
+
+</div>
+
+<div class="message" id="productMessage"></div>
+
+<select id="productSelect">
+
+<option value="">-- Select Product for Invoice --</option>
+
+</select>
 
 </div>
 
@@ -331,6 +370,7 @@ value="548, LIG, 14th Cross, Navanagar, Hubballi - 580025">
 <input id="buyerContact" placeholder="Contact Number">
 
 </div>
+
 
 <div class="party">
 
@@ -366,25 +406,27 @@ value="548, LIG, 14th Cross, Navanagar, Hubballi - 580025">
 <th>Qty.</th>
 <th>Packing Type</th>
 <th>Rate / Unit<br>(Incl. GST)</th>
+<th>Mfg Date</th>
+<th>Exp Date</th>
 <th>Taxable Value</th>
-<th>Amount<br>(Incl. GST)</th>
+<th>Amount</th>
 <th></th>
 </tr>
 
 </thead>
 
-<tbody id="productRows">
+<tbody id="invoiceProductRows">
 
 <tr>
 
 <td>1</td>
 
 <td>
-<input value="Willpower Indian Cow Ghee">
+<input class="product-name" value="Willpower Indian Cow Ghee">
 </td>
 
 <td>
-<input value="04059020">
+<input class="product-hsn" value="04059020">
 </td>
 
 <td>
@@ -392,11 +434,19 @@ value="548, LIG, 14th Cross, Navanagar, Hubballi - 580025">
 </td>
 
 <td>
-<input value="One Litre Jar">
+<input class="product-packing" value="One Litre Jar">
 </td>
 
 <td>
 <input class="rate" type="number" value="975" min="0">
+</td>
+
+<td>
+<input class="product-mfg" type="date">
+</td>
+
+<td>
+<input class="product-exp" type="date">
 </td>
 
 <td class="taxable">₹0.00</td>
@@ -404,7 +454,7 @@ value="548, LIG, 14th Cross, Navanagar, Hubballi - 580025">
 <td class="amount">₹0.00</td>
 
 <td>
-<button class="remove" onclick="removeProduct(this)">X</button>
+<button class="remove" onclick="removeInvoiceProduct(this)">X</button>
 </td>
 
 </tr>
@@ -413,7 +463,7 @@ value="548, LIG, 14th Cross, Navanagar, Hubballi - 580025">
 
 </table>
 
-<button class="add" onclick="addProduct()">+ Add Product</button>
+<button class="add" onclick="addInvoiceProduct()">+ Add Product</button>
 
 </div>
 
@@ -472,15 +522,15 @@ value="548, LIG, 14th Cross, Navanagar, Hubballi - 580025">
 
 /* PAYMENT TERMS */
 
-const paymentTerms=document.getElementById("paymentTerms");
-const creditPeriodRow=document.getElementById("creditPeriodRow");
+document.getElementById("paymentTerms")
+.addEventListener("change",function(){
 
-paymentTerms.addEventListener("change",function(){
+const row=document.getElementById("creditPeriodRow");
 
 if(this.value==="Credit"){
-creditPeriodRow.style.display="flex";
+row.style.display="flex";
 }else{
-creditPeriodRow.style.display="none";
+row.style.display="none";
 document.getElementById("creditPeriod").value="";
 }
 
@@ -509,17 +559,17 @@ function displayCustomers(){
 const select=document.getElementById("customerSelect");
 
 select.innerHTML=
-'<option value="">-- Select Customer --</option>';
+'<option value="">-- Select Customer for Invoice --</option>';
 
-customers.forEach(function(customer,index){
+customers.forEach((customer,index)=>{
 
 const option=document.createElement("option");
 
 option.value=index;
 
 option.textContent=
-customer.name +
-(customer.gst ? " — " + customer.gst : "");
+customer.name+
+(customer.gst ? " — "+customer.gst : "");
 
 select.appendChild(option);
 
@@ -530,32 +580,36 @@ select.appendChild(option);
 
 function addCustomer(){
 
-const name=document.getElementById("newCustomerName").value.trim();
+const name=
+document.getElementById("newCustomerName")
+.value.trim();
 
 if(!name){
 
-document.getElementById("customerMessage").innerText=
-"Please enter customer name.";
+document.getElementById("customerMessage")
+.innerText="Please enter customer name.";
 
 return;
 
 }
 
-const customer={
+customers.push({
 
 name:name,
 
-address:document.getElementById("newCustomerAddress").value,
+address:
+document.getElementById("newCustomerAddress").value,
 
-state:document.getElementById("newCustomerState").value,
+state:
+document.getElementById("newCustomerState").value,
 
-gst:document.getElementById("newCustomerGST").value,
+gst:
+document.getElementById("newCustomerGST").value,
 
-contact:document.getElementById("newCustomerContact").value
+contact:
+document.getElementById("newCustomerContact").value
 
-};
-
-customers.push(customer);
+});
 
 saveCustomers();
 
@@ -567,8 +621,8 @@ document.getElementById("newCustomerState").value="";
 document.getElementById("newCustomerGST").value="";
 document.getElementById("newCustomerContact").value="";
 
-document.getElementById("customerMessage").innerText=
-"Customer added successfully.";
+document.getElementById("customerMessage")
+.innerText="Customer added successfully.";
 
 }
 
@@ -576,33 +630,147 @@ document.getElementById("customerMessage").innerText=
 document.getElementById("customerSelect")
 .addEventListener("change",function(){
 
-if(this.value==="") return;
+if(this.value==="")return;
 
 const customer=customers[Number(this.value)];
 
-document.getElementById("buyerName").value=
-customer.name;
-
-document.getElementById("buyerAddress").value=
-customer.address;
-
-document.getElementById("buyerState").value=
-customer.state;
-
-document.getElementById("buyerGST").value=
-customer.gst;
-
-document.getElementById("buyerContact").value=
-customer.contact;
+document.getElementById("buyerName").value=customer.name;
+document.getElementById("buyerAddress").value=customer.address;
+document.getElementById("buyerState").value=customer.state;
+document.getElementById("buyerGST").value=customer.gst;
+document.getElementById("buyerContact").value=customer.contact;
 
 });
 
 
-/* PRODUCTS */
+/* PRODUCT MASTER */
 
-function addProduct(){
+let products=JSON.parse(
+localStorage.getItem("willpowerProducts") || "[]"
+);
 
-const tbody=document.getElementById("productRows");
+
+function saveProducts(){
+
+localStorage.setItem(
+"willpowerProducts",
+JSON.stringify(products)
+);
+
+}
+
+
+function displayProducts(){
+
+const select=document.getElementById("productSelect");
+
+select.innerHTML=
+'<option value="">-- Select Product for Invoice --</option>';
+
+products.forEach((product,index)=>{
+
+const option=document.createElement("option");
+
+option.value=index;
+
+option.textContent=
+product.name+
+" — ₹"+product.rate;
+
+select.appendChild(option);
+
+});
+
+}
+
+
+function addProductMaster(){
+
+const name=
+document.getElementById("newProductName")
+.value.trim();
+
+if(!name){
+
+document.getElementById("productMessage")
+.innerText="Please enter product name.";
+
+return;
+
+}
+
+products.push({
+
+name:name,
+
+hsn:
+document.getElementById("newProductHSN").value,
+
+packing:
+document.getElementById("newProductPacking").value,
+
+gst:
+Number(document.getElementById("newProductGST").value)||5,
+
+rate:
+Number(document.getElementById("newProductRate").value)||0,
+
+mfg:
+document.getElementById("newProductMfg").value,
+
+exp:
+document.getElementById("newProductExp").value
+
+});
+
+saveProducts();
+
+displayProducts();
+
+document.getElementById("newProductName").value="";
+document.getElementById("newProductHSN").value="";
+document.getElementById("newProductPacking").value="";
+document.getElementById("newProductGST").value="5";
+document.getElementById("newProductRate").value="";
+document.getElementById("newProductMfg").value="";
+document.getElementById("newProductExp").value="";
+
+document.getElementById("productMessage")
+.innerText="Product added successfully.";
+
+}
+
+
+/* SELECT PRODUCT */
+
+document.getElementById("productSelect")
+.addEventListener("change",function(){
+
+if(this.value==="")return;
+
+const product=products[Number(this.value)];
+
+const row=document.querySelector(
+"#invoiceProductRows tr:first-child"
+);
+
+row.querySelector(".product-name").value=product.name;
+row.querySelector(".product-hsn").value=product.hsn;
+row.querySelector(".product-packing").value=product.packing;
+row.querySelector(".rate").value=product.rate;
+row.querySelector(".product-mfg").value=product.mfg;
+row.querySelector(".product-exp").value=product.exp;
+
+calculateInvoice();
+
+});
+
+
+/* INVOICE PRODUCT ROWS */
+
+function addInvoiceProduct(){
+
+const tbody=document.getElementById("invoiceProductRows");
 
 const row=document.createElement("tr");
 
@@ -611,11 +779,11 @@ row.innerHTML=`
 <td></td>
 
 <td>
-<input placeholder="Product name">
+<input class="product-name" placeholder="Product name">
 </td>
 
 <td>
-<input placeholder="HSN">
+<input class="product-hsn" placeholder="HSN">
 </td>
 
 <td>
@@ -623,11 +791,19 @@ row.innerHTML=`
 </td>
 
 <td>
-<input placeholder="Packing">
+<input class="product-packing" placeholder="Packing">
 </td>
 
 <td>
 <input class="rate" type="number" value="0" min="0">
+</td>
+
+<td>
+<input class="product-mfg" type="date">
+</td>
+
+<td>
+<input class="product-exp" type="date">
 </td>
 
 <td class="taxable">₹0.00</td>
@@ -635,7 +811,8 @@ row.innerHTML=`
 <td class="amount">₹0.00</td>
 
 <td>
-<button class="remove" onclick="removeProduct(this)">X</button>
+<button class="remove"
+onclick="removeInvoiceProduct(this)">X</button>
 </td>
 
 `;
@@ -649,9 +826,10 @@ calculateInvoice();
 }
 
 
-function removeProduct(button){
+function removeInvoiceProduct(button){
 
-const rows=document.querySelectorAll("#productRows tr");
+const rows=
+document.querySelectorAll("#invoiceProductRows tr");
 
 if(rows.length===1){
 
@@ -671,7 +849,7 @@ calculateInvoice();
 
 function renumberRows(){
 
-document.querySelectorAll("#productRows tr")
+document.querySelectorAll("#invoiceProductRows tr")
 .forEach((row,index)=>{
 
 row.cells[0].innerText=index+1;
@@ -745,7 +923,7 @@ function calculateInvoice(){
 
 let total=0;
 
-document.querySelectorAll("#productRows tr")
+document.querySelectorAll("#invoiceProductRows tr")
 .forEach(row=>{
 
 const qty=
@@ -769,7 +947,9 @@ total+=amount;
 });
 
 const taxableTotal=total/1.05;
+
 const cgst=taxableTotal*0.025;
+
 const sgst=taxableTotal*0.025;
 
 document.getElementById("taxableTotal").innerText=
@@ -796,6 +976,8 @@ document.getElementById("invoiceDate").value=
 new Date().toISOString().split("T")[0];
 
 displayCustomers();
+
+displayProducts();
 
 renumberRows();
 
