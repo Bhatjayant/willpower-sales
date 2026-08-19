@@ -1,0 +1,2809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Willpower Sales & Accounts V3</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f2f2f2;
+    color:#111;
+}
+
+.app{
+    max-width:1400px;
+    margin:auto;
+    min-height:100vh;
+    background:#fff;
+}
+
+.topbar{
+    background:#111;
+    color:#fff;
+    padding:14px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.brand{
+    font-size:21px;
+    font-weight:bold;
+}
+
+.subtitle{
+    font-size:11px;
+    opacity:.7;
+    margin-top:3px;
+}
+
+.menu{
+    display:flex;
+    gap:5px;
+    flex-wrap:wrap;
+}
+
+.menu button{
+    background:#333;
+    color:#fff;
+    border:0;
+    padding:9px 13px;
+    cursor:pointer;
+}
+
+.menu button.active,
+.menu button:hover{
+    background:#fff;
+    color:#111;
+}
+
+.page{
+    display:none;
+    padding:22px;
+}
+
+.page.active{
+    display:block;
+}
+
+.page-title{
+    margin:0 0 18px;
+    font-size:22px;
+}
+
+button{
+    border:0;
+    background:#111;
+    color:#fff;
+    padding:9px 15px;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:.85;
+}
+
+.btn-danger{
+    background:#900;
+}
+
+.btn-success{
+    background:#176117;
+}
+
+.btn-secondary{
+    background:#555;
+}
+
+.dashboard{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.card{
+    border:1px solid #ccc;
+    padding:18px;
+}
+
+.card-title{
+    font-size:11px;
+    color:#666;
+}
+
+.card-value{
+    font-size:24px;
+    font-weight:bold;
+    margin-top:8px;
+}
+
+.section{
+    border:1px solid #ccc;
+    margin-bottom:18px;
+}
+
+.section-title{
+    background:#111;
+    color:#fff;
+    padding:9px 12px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.section-body{
+    padding:15px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.form-group label{
+    display:block;
+    font-size:11px;
+    margin-bottom:5px;
+    font-weight:bold;
+}
+
+input,
+select{
+    width:100%;
+    padding:9px;
+    border:1px solid #aaa;
+    font-size:13px;
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,
+td{
+    border:1px solid #ccc;
+    padding:8px;
+    font-size:12px;
+}
+
+th{
+    background:#eee;
+}
+
+.search{
+    margin-bottom:12px;
+}
+
+.search input{
+    max-width:450px;
+}
+
+/* ACCOUNT SUMMARY */
+
+.account-summary{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+/* LEDGER */
+
+.ledger-box{
+    margin-top:20px;
+}
+
+.positive{
+    font-weight:bold;
+}
+
+.outstanding{
+    font-weight:bold;
+}
+
+/* INVOICE */
+
+.invoice-head{
+    display:grid;
+    grid-template-columns:120px 1fr 320px;
+    gap:20px;
+    border-bottom:2px solid #111;
+    padding-bottom:15px;
+}
+
+.logo{
+    text-align:center;
+}
+
+.logo-symbol{
+    font-size:48px;
+    font-weight:bold;
+}
+
+.logo-name{
+    font-size:10px;
+    font-weight:bold;
+}
+
+.company-name{
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.company-details{
+    font-size:11px;
+    line-height:1.5;
+}
+
+.invoice-meta{
+    border-left:1px solid #ccc;
+    padding-left:15px;
+}
+
+.invoice-meta h2{
+    margin:0 0 12px;
+    text-align:right;
+}
+
+.meta-row{
+    display:grid;
+    grid-template-columns:110px 1fr;
+    gap:8px;
+    margin-bottom:7px;
+}
+
+.meta-row label{
+    font-size:11px;
+    font-weight:bold;
+}
+
+.buyer-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+}
+
+.box{
+    border:1px solid #ccc;
+    padding:14px;
+}
+
+.box h3{
+    font-size:12px;
+    margin:0 0 10px;
+}
+
+.box input,
+.box select{
+    margin-bottom:7px;
+}
+
+.invoice-table{
+    margin-top:15px;
+    overflow-x:auto;
+}
+
+.invoice-table table{
+    min-width:1050px;
+}
+
+.invoice-table input,
+.invoice-table select{
+    padding:6px;
+}
+
+.summary{
+    display:grid;
+    grid-template-columns:1fr 350px;
+    gap:15px;
+    margin-top:15px;
+}
+
+.words{
+    border:1px solid #ccc;
+    padding:14px;
+    font-size:12px;
+}
+
+.totals{
+    border:1px solid #ccc;
+}
+
+.total-row{
+    display:flex;
+    justify-content:space-between;
+    padding:9px;
+    border-bottom:1px solid #ddd;
+    font-size:12px;
+}
+
+.total-final{
+    font-size:17px;
+    font-weight:bold;
+}
+
+.credit-row{
+    display:none;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:12px;
+}
+
+@media(max-width:900px){
+
+    .dashboard,
+    .account-summary{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .invoice-head,
+    .buyer-grid,
+    .summary{
+        grid-template-columns:1fr;
+    }
+
+    .invoice-meta{
+        border-left:0;
+        padding-left:0;
+    }
+
+    .invoice-meta h2{
+        text-align:left;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:600px){
+
+    .topbar{
+        display:block;
+    }
+
+    .menu{
+        margin-top:12px;
+    }
+
+    .menu button{
+        flex:1;
+    }
+
+    .dashboard,
+    .account-summary,
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .page{
+        padding:12px;
+    }
+}
+
+@media print{
+
+    .topbar,
+    .no-print{
+        display:none!important;
+    }
+
+    #invoicePage{
+        display:block!important;
+    }
+
+    .page{
+        padding:0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- HEADER -->
+
+<div class="topbar">
+
+<div>
+<div class="brand">WILLPOWER SALES & ACCOUNTS</div>
+<div class="subtitle">Sales Management • Invoicing • Accounts</div>
+</div>
+
+<div class="menu">
+
+<button class="active"
+onclick="openPage('dashboardPage',this)">
+Dashboard
+</button>
+
+<button onclick="newInvoice()">
+New Invoice
+</button>
+
+<button onclick="openPage('invoicesPage',this)">
+Invoices
+</button>
+
+<button onclick="openPage('customersPage',this)">
+Customers
+</button>
+
+<button onclick="openPage('productsPage',this)">
+Products
+</button>
+
+<button onclick="openPage('accountsPage',this)">
+Accounts
+</button>
+
+</div>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<div id="dashboardPage" class="page active">
+
+<h2 class="page-title">Dashboard</h2>
+
+<div class="dashboard">
+
+<div class="card">
+<div class="card-title">TODAY'S SALES</div>
+<div class="card-value" id="todaySales">₹0.00</div>
+</div>
+
+<div class="card">
+<div class="card-title">THIS MONTH</div>
+<div class="card-value" id="monthSales">₹0.00</div>
+</div>
+
+<div class="card">
+<div class="card-title">PAYMENTS RECEIVED</div>
+<div class="card-value" id="dashboardCollections">₹0.00</div>
+</div>
+
+<div class="card">
+<div class="card-title">OUTSTANDING</div>
+<div class="card-value" id="dashboardOutstanding">₹0.00</div>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CUSTOMERS -->
+
+<div id="customersPage" class="page">
+
+<h2 class="page-title">Customer Master</h2>
+
+<div class="section">
+
+<div class="section-title">
+ADD CUSTOMER
+</div>
+
+<div class="section-body">
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Customer Name</label>
+<input id="customerName">
+</div>
+
+<div class="form-group">
+<label>Address</label>
+<input id="customerAddress">
+</div>
+
+<div class="form-group">
+<label>State</label>
+<input id="customerState">
+</div>
+
+<div class="form-group">
+<label>GSTIN</label>
+<input id="customerGST">
+</div>
+
+<div class="form-group">
+<label>Contact</label>
+<input id="customerContact">
+</div>
+
+<div class="form-group">
+<label>&nbsp;</label>
+<button onclick="addCustomer()">
++ Add Customer
+</button>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="search">
+<input
+id="customerSearch"
+placeholder="Search customer..."
+oninput="displayCustomers()">
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Customer</th>
+<th>Address</th>
+<th>State</th>
+<th>GSTIN</th>
+<th>Contact</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="customerTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- PRODUCTS -->
+
+<div id="productsPage" class="page">
+
+<h2 class="page-title">Product Master</h2>
+
+<div class="section">
+
+<div class="section-title">
+ADD PRODUCT
+</div>
+
+<div class="section-body">
+
+<div class="form-grid">
+
+<div class="form-group">
+<label>Product Name</label>
+<input id="productName">
+</div>
+
+<div class="form-group">
+<label>HSN</label>
+<input id="productHSN">
+</div>
+
+<div class="form-group">
+<label>Packing</label>
+<input id="productPacking">
+</div>
+
+<div class="form-group">
+<label>GST %</label>
+<input id="productGST" type="number" value="5">
+</div>
+
+<div class="form-group">
+<label>Rate Incl. GST</label>
+<input id="productRate" type="number">
+</div>
+
+<div class="form-group">
+<label>&nbsp;</label>
+<button onclick="addProduct()">
++ Add Product
+</button>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="search">
+<input
+id="productSearch"
+placeholder="Search product..."
+oninput="displayProducts()">
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th>Product</th>
+<th>HSN</th>
+<th>Packing</th>
+<th>GST</th>
+<th>Rate</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="productTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- INVOICE -->
+
+<div id="invoicePage" class="page">
+
+<div class="invoice-head">
+
+<div class="logo">
+<div class="logo-symbol">W</div>
+<div class="logo-name">WORLD OF WILLPOWER</div>
+</div>
+
+<div>
+
+<div class="company-name">
+World of Willpower Private Limited
+</div>
+
+<div class="company-details">
+Correspondence Address: Gayatri Farms, Khamgaon Maval,
+Haveli, Pune 411025, Maharashtra<br>
+CIN: U86900PN2026PTC251855<br>
+GSTIN: 27AAECW3784C1Z7
+</div>
+
+</div>
+
+<div class="invoice-meta">
+
+<h2>SALE INVOICE</h2>
+
+<div class="meta-row">
+<label>Invoice No.</label>
+<input id="invoiceNumber">
+</div>
+
+<div class="meta-row">
+<label>Date</label>
+<input id="invoiceDate" type="date">
+</div>
+
+<div class="meta-row">
+<label>Status</label>
+
+<select id="invoiceStatus">
+
+<option>Draft</option>
+<option>Final</option>
+<option>Cancelled</option>
+
+</select>
+
+</div>
+
+<div class="meta-row">
+
+<label>Payment</label>
+
+<select id="paymentTerms">
+
+<option>100% Advance Payment</option>
+<option>Payment on Delivery</option>
+<option>Credit</option>
+
+</select>
+
+</div>
+
+<div class="meta-row credit-row"
+id="creditRow">
+
+<label>Credit Period</label>
+
+<input
+id="creditPeriod"
+placeholder="e.g. 30 days">
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="section-title">
+BUYER DETAILS
+</div>
+
+<div class="buyer-grid">
+
+<div class="box">
+
+<h3>CUSTOMER</h3>
+
+<select
+id="invoiceCustomer"
+onchange="selectCustomer()">
+
+<option value="">
+-- Select Customer --
+</option>
+
+</select>
+
+<input id="buyerName" placeholder="Customer Name">
+<input id="buyerAddress" placeholder="Address">
+<input id="buyerState" placeholder="State">
+<input id="buyerGST" placeholder="GSTIN / Unregistered">
+<input id="buyerContact" placeholder="Contact">
+
+</div>
+
+<div class="box">
+
+<h3>SUPPLIER</h3>
+
+<div class="company-details">
+
+<b>World of Willpower Private Limited</b>
+
+<br><br>
+
+Gayatri Farms, Khamgaon Maval,
+Haveli, Pune 411025, Maharashtra
+
+<br><br>
+
+CIN: U86900PN2026PTC251855
+
+<br>
+
+GSTIN: 27AAECW3784C1Z7
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="section-title">
+PRODUCT DETAILS
+</div>
+
+<div class="invoice-table">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Sl.</th>
+<th>Product</th>
+<th>HSN</th>
+<th>Qty</th>
+<th>Packing</th>
+<th>Rate Incl. GST</th>
+<th>Taxable</th>
+<th>Total</th>
+<th class="no-print">Action</th>
+</tr>
+
+</thead>
+
+<tbody id="invoiceProducts"></tbody>
+
+</table>
+
+</div>
+
+
+<div class="actions no-print">
+
+<button onclick="addInvoiceProduct()">
++ Add Product
+</button>
+
+<button class="btn-success"
+onclick="saveInvoice()">
+Save Invoice
+</button>
+
+<button onclick="window.print()">
+Print / PDF
+</button>
+
+</div>
+
+
+<div class="summary">
+
+<div class="words">
+
+<b>Amount in Words:</b>
+
+<div id="amountWords">
+Zero Rupees Only
+</div>
+
+</div>
+
+<div class="totals">
+
+<div class="total-row">
+<span>Taxable Value</span>
+<span id="taxableTotal">₹0.00</span>
+</div>
+
+<div class="total-row">
+<span>CGST @ 2.5%</span>
+<span id="cgst">₹0.00</span>
+</div>
+
+<div class="total-row">
+<span>SGST @ 2.5%</span>
+<span id="sgst">₹0.00</span>
+</div>
+
+<div class="total-row total-final">
+<span>INVOICE TOTAL</span>
+<span id="invoiceTotal">₹0.00</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- INVOICES -->
+
+<div id="invoicesPage" class="page">
+
+<h2 class="page-title">Invoices</h2>
+
+<div class="search">
+
+<input
+id="invoiceSearch"
+placeholder="Search invoice or customer..."
+oninput="displayInvoices()">
+
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Invoice No.</th>
+<th>Date</th>
+<th>Customer</th>
+<th>Status</th>
+<th>Payment</th>
+<th>Amount</th>
+<th>Action</th>
+</tr>
+
+</thead>
+
+<tbody id="invoiceTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<!-- ACCOUNTS -->
+
+<div id="accountsPage" class="page">
+
+<h2 class="page-title">
+Accounts
+</h2>
+
+
+<div class="account-summary">
+
+<div class="card">
+
+<div class="card-title">
+TOTAL SALES
+</div>
+
+<div class="card-value"
+id="accountSales">
+₹0.00
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="card-title">
+CREDIT SALES
+</div>
+
+<div class="card-value"
+id="creditSales">
+₹0.00
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="card-title">
+PAYMENTS RECEIVED
+</div>
+
+<div class="card-value"
+id="accountCollections">
+₹0.00
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="card-title">
+OUTSTANDING
+</div>
+
+<div class="card-value"
+id="accountOutstanding">
+₹0.00
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PAYMENT ENTRY -->
+
+<div class="section">
+
+<div class="section-title">
+PAYMENT RECEIVED
+</div>
+
+<div class="section-body">
+
+<div class="form-grid">
+
+<div class="form-group">
+
+<label>Customer</label>
+
+<select id="paymentCustomer">
+
+<option value="">
+-- Select Customer --
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Payment Date</label>
+
+<input
+id="paymentDate"
+type="date">
+
+</div>
+
+
+<div class="form-group">
+
+<label>Amount Received</label>
+
+<input
+id="paymentAmount"
+type="number"
+min="0">
+
+</div>
+
+
+<div class="form-group">
+
+<label>Payment Mode</label>
+
+<select id="paymentMode">
+
+<option>Cash</option>
+<option>Bank Transfer</option>
+<option>UPI</option>
+<option>Cheque</option>
+<option>Other</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Reference No.</label>
+
+<input
+id="paymentReference"
+placeholder="UTR / Cheque / Reference">
+
+</div>
+
+
+<div class="form-group">
+
+<label>&nbsp;</label>
+
+<button class="btn-success"
+onclick="recordPayment()">
+
+Record Payment
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CUSTOMER LEDGER -->
+
+<div class="section">
+
+<div class="section-title">
+CUSTOMER LEDGER
+</div>
+
+<div class="section-body">
+
+<div class="form-group"
+style="max-width:400px">
+
+<label>Select Customer</label>
+
+<select
+id="ledgerCustomer"
+onchange="displayLedger()">
+
+<option value="">
+-- Select Customer --
+</option>
+
+</select>
+
+</div>
+
+
+<div class="ledger-box">
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Date</th>
+<th>Reference</th>
+<th>Description</th>
+<th>Debit</th>
+<th>Credit</th>
+<th>Balance</th>
+</tr>
+
+</thead>
+
+<tbody id="ledgerTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ALL PAYMENTS -->
+
+<div class="section">
+
+<div class="section-title">
+PAYMENTS RECEIVED
+</div>
+
+<div class="section-body">
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Date</th>
+<th>Customer</th>
+<th>Amount</th>
+<th>Mode</th>
+<th>Reference</th>
+</tr>
+
+</thead>
+
+<tbody id="paymentTable"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ==========================
+DATA
+========================== */
+
+let customers=
+JSON.parse(
+localStorage.getItem("willpowerCustomers")||"[]"
+);
+
+let products=
+JSON.parse(
+localStorage.getItem("willpowerProducts")||"[]"
+);
+
+let invoices=
+JSON.parse(
+localStorage.getItem("willpowerInvoices")||"[]"
+);
+
+let payments=
+JSON.parse(
+localStorage.getItem("willpowerPayments")||"[]"
+);
+
+let currentInvoiceId=null;
+
+
+/* ==========================
+NAVIGATION
+========================== */
+
+function openPage(pageId,button){
+
+document
+.querySelectorAll(".page")
+.forEach(p=>p.classList.remove("active"));
+
+document
+.getElementById(pageId)
+.classList.add("active");
+
+document
+.querySelectorAll(".menu button")
+.forEach(b=>b.classList.remove("active"));
+
+if(button){
+button.classList.add("active");
+}
+
+if(pageId==="customersPage"){
+displayCustomers();
+}
+
+if(pageId==="productsPage"){
+displayProducts();
+}
+
+if(pageId==="invoicesPage"){
+displayInvoices();
+}
+
+if(pageId==="accountsPage"){
+prepareAccounts();
+}
+
+}
+
+
+/* ==========================
+INVOICE NUMBER
+========================== */
+
+function nextInvoiceNumber(){
+
+let n=
+Number(
+localStorage.getItem(
+"willpowerInvoiceNumber"
+)||0
+);
+
+n++;
+
+localStorage.setItem(
+"willpowerInvoiceNumber",
+n
+);
+
+return "WWPL/"
++String(n).padStart(4,"0");
+
+}
+
+
+/* ==========================
+NEW INVOICE
+========================== */
+
+function newInvoice(){
+
+currentInvoiceId=null;
+
+document.getElementById("invoiceNumber")
+.value=nextInvoiceNumber();
+
+document.getElementById("invoiceDate")
+.value=
+new Date()
+.toISOString()
+.split("T")[0];
+
+document.getElementById("invoiceStatus")
+.value="Draft";
+
+document.getElementById("paymentTerms")
+.value=
+"100% Advance Payment";
+
+document.getElementById("creditPeriod")
+.value="";
+
+document.getElementById("creditRow")
+.style.display="none";
+
+document.getElementById("buyerName").value="";
+document.getElementById("buyerAddress").value="";
+document.getElementById("buyerState").value="";
+document.getElementById("buyerGST").value="";
+document.getElementById("buyerContact").value="";
+
+populateCustomerSelect();
+
+document.getElementById("invoiceCustomer")
+.value="";
+
+document.getElementById("invoiceProducts")
+.innerHTML="";
+
+addInvoiceProduct();
+
+openPage("invoicePage");
+
+}
+
+
+/* ==========================
+CUSTOMERS
+========================== */
+
+function addCustomer(){
+
+const name=
+document.getElementById("customerName")
+.value.trim();
+
+if(!name){
+
+alert("Enter customer name.");
+
+return;
+
+}
+
+customers.push({
+
+name:name,
+
+address:
+document.getElementById("customerAddress").value,
+
+state:
+document.getElementById("customerState").value,
+
+gst:
+document.getElementById("customerGST").value,
+
+contact:
+document.getElementById("customerContact").value
+
+});
+
+localStorage.setItem(
+"willpowerCustomers",
+JSON.stringify(customers)
+);
+
+document.getElementById("customerName").value="";
+document.getElementById("customerAddress").value="";
+document.getElementById("customerState").value="";
+document.getElementById("customerGST").value="";
+document.getElementById("customerContact").value="";
+
+displayCustomers();
+
+populateCustomerSelect();
+
+alert("Customer added.");
+
+}
+
+
+function displayCustomers(){
+
+const tbody=
+document.getElementById("customerTable");
+
+const search=
+(
+document.getElementById("customerSearch")
+?.value||""
+).toLowerCase();
+
+tbody.innerHTML="";
+
+customers.forEach((c,i)=>{
+
+if(
+search &&
+!c.name.toLowerCase().includes(search)&&
+!(c.gst||"").toLowerCase().includes(search)&&
+!(c.contact||"").toLowerCase().includes(search)
+){
+return;
+}
+
+const row=
+document.createElement("tr");
+
+row.innerHTML=`
+
+<td>${safe(c.name)}</td>
+<td>${safe(c.address)}</td>
+<td>${safe(c.state)}</td>
+<td>${safe(c.gst)}</td>
+<td>${safe(c.contact)}</td>
+
+<td>
+
+<button
+onclick="editCustomer(${i})">
+Edit
+</button>
+
+<button
+class="btn-danger"
+onclick="deleteCustomer(${i})">
+Delete
+</button>
+
+</td>
+
+`;
+
+tbody.appendChild(row);
+
+});
+
+
+}
+
+
+function editCustomer(index){
+
+const c=customers[index];
+
+const name=prompt(
+"Customer Name:",
+c.name
+);
+
+if(name===null)return;
+
+const address=prompt(
+"Address:",
+c.address
+);
+
+if(address===null)return;
+
+const state=prompt(
+"State:",
+c.state
+);
+
+if(state===null)return;
+
+const gst=prompt(
+"GSTIN:",
+c.gst
+);
+
+if(gst===null)return;
+
+const contact=prompt(
+"Contact:",
+c.contact
+);
+
+if(contact===null)return;
+
+customers[index]={
+name:name,
+address:address,
+state:state,
+gst:gst,
+contact:contact
+};
+
+localStorage.setItem(
+"willpowerCustomers",
+JSON.stringify(customers)
+);
+
+displayCustomers();
+populateCustomerSelect();
+
+}
+
+
+function deleteCustomer(index){
+
+if(
+!confirm(
+"Delete "+customers[index].name+"?"
+)
+){
+return;
+}
+
+customers.splice(index,1);
+
+localStorage.setItem(
+"willpowerCustomers",
+JSON.stringify(customers)
+);
+
+displayCustomers();
+populateCustomerSelect();
+
+}
+
+
+/* ==========================
+PRODUCTS
+========================== */
+
+function addProduct(){
+
+const name=
+document.getElementById("productName")
+.value.trim();
+
+if(!name){
+
+alert("Enter product name.");
+
+return;
+
+}
+
+products.push({
+
+name:name,
+
+hsn:
+document.getElementById("productHSN").value,
+
+packing:
+document.getElementById("productPacking").value,
+
+gst:
+Number(
+document.getElementById("productGST").value
+)||5,
+
+rate:
+Number(
+document.getElementById("productRate").value
+)||0
+
+});
+
+localStorage.setItem(
+"willpowerProducts",
+JSON.stringify(products)
+);
+
+document.getElementById("productName").value="";
+document.getElementById("productHSN").value="";
+document.getElementById("productPacking").value="";
+document.getElementById("productRate").value="";
+
+displayProducts();
+
+alert("Product added.");
+
+}
+
+
+function displayProducts(){
+
+const tbody=
+document.getElementById("productTable");
+
+const search=
+(
+document.getElementById("productSearch")
+?.value||""
+).toLowerCase();
+
+tbody.innerHTML="";
+
+products.forEach((p,i)=>{
+
+if(
+search &&
+!p.name.toLowerCase().includes(search)&&
+!(p.hsn||"").toLowerCase().includes(search)
+){
+return;
+}
+
+const row=
+document.createElement("tr");
+
+row.innerHTML=`
+
+<td>${safe(p.name)}</td>
+<td>${safe(p.hsn)}</td>
+<td>${safe(p.packing)}</td>
+<td>${p.gst}%</td>
+<td>₹${Number(p.rate).toFixed(2)}</td>
+
+<td>
+
+<button
+onclick="editProduct(${i})">
+Edit
+</button>
+
+<button
+class="btn-danger"
+onclick="deleteProduct(${i})">
+Delete
+</button>
+
+</td>
+
+`;
+
+tbody.appendChild(row);
+
+});
+
+}
+
+
+function editProduct(index){
+
+const p=products[index];
+
+const name=prompt(
+"Product Name:",
+p.name
+);
+
+if(name===null)return;
+
+const hsn=prompt(
+"HSN:",
+p.hsn
+);
+
+if(hsn===null)return;
+
+const packing=prompt(
+"Packing:",
+p.packing
+);
+
+if(packing===null)return;
+
+const gst=prompt(
+"GST %:",
+p.gst
+);
+
+if(gst===null)return;
+
+const rate=prompt(
+"Rate:",
+p.rate
+);
+
+if(rate===null)return;
+
+products[index]={
+name:name,
+hsn:hsn,
+packing:packing,
+gst:Number(gst)||0,
+rate:Number(rate)||0
+};
+
+localStorage.setItem(
+"willpowerProducts",
+JSON.stringify(products)
+);
+
+displayProducts();
+
+}
+
+
+function deleteProduct(index){
+
+if(
+!confirm(
+"Delete "+products[index].name+"?"
+)
+){
+return;
+}
+
+products.splice(index,1);
+
+localStorage.setItem(
+"willpowerProducts",
+JSON.stringify(products)
+);
+
+displayProducts();
+
+}
+
+
+/* ==========================
+CUSTOMER SELECT
+========================== */
+
+function populateCustomerSelect(){
+
+const selects=[
+document.getElementById("invoiceCustomer"),
+document.getElementById("paymentCustomer"),
+document.getElementById("ledgerCustomer")
+];
+
+selects.forEach(select=>{
+
+if(!select)return;
+
+select.innerHTML=
+'<option value="">-- Select Customer --</option>';
+
+customers.forEach((c,i)=>{
+
+const option=
+document.createElement("option");
+
+option.value=i;
+option.textContent=c.name;
+
+select.appendChild(option);
+
+});
+
+});
+
+}
+
+
+function selectCustomer(){
+
+const index=
+document.getElementById(
+"invoiceCustomer"
+).value;
+
+if(index==="")return;
+
+const c=
+customers[Number(index)];
+
+document.getElementById("buyerName")
+.value=c.name;
+
+document.getElementById("buyerAddress")
+.value=c.address;
+
+document.getElementById("buyerState")
+.value=c.state;
+
+document.getElementById("buyerGST")
+.value=c.gst;
+
+document.getElementById("buyerContact")
+.value=c.contact;
+
+}
+
+
+/* ==========================
+PAYMENT TERMS
+========================== */
+
+document.getElementById("paymentTerms")
+.addEventListener(
+"change",
+function(){
+
+const creditRow=
+document.getElementById("creditRow");
+
+if(this.value==="Credit"){
+
+creditRow.style.display="grid";
+
+}else{
+
+creditRow.style.display="none";
+
+document.getElementById(
+"creditPeriod"
+).value="";
+
+}
+
+}
+);
+
+
+/* ==========================
+INVOICE PRODUCTS
+========================== */
+
+function addInvoiceProduct(){
+
+const tbody=
+document.getElementById(
+"invoiceProducts"
+);
+
+const row=
+document.createElement("tr");
+
+row.innerHTML=`
+
+<td>${tbody.children.length+1}</td>
+
+<td>
+
+<select
+class="invoiceProduct"
+onchange="selectProduct(this)">
+
+<option value="">
+Select Product
+</option>
+
+</select>
+
+</td>
+
+<td class="hsn"></td>
+
+<td>
+
+<input
+class="qty"
+type="number"
+min="0"
+value="1"
+oninput="calculateInvoice()">
+
+</td>
+
+<td class="packing"></td>
+
+<td>
+
+<input
+class="rate"
+type="number"
+min="0"
+value="0"
+oninput="calculateInvoice()">
+
+</td>
+
+<td class="taxable">
+₹0.00
+</td>
+
+<td class="amount">
+₹0.00
+</td>
+
+<td class="no-print">
+
+<button
+class="btn-danger"
+onclick="removeInvoiceProduct(this)">
+X
+</button>
+
+</td>
+
+`;
+
+tbody.appendChild(row);
+
+const select=
+row.querySelector(
+".invoiceProduct"
+);
+
+products.forEach((p,i)=>{
+
+const option=
+document.createElement("option");
+
+option.value=i;
+option.textContent=p.name;
+
+select.appendChild(option);
+
+});
+
+}
+
+
+function selectProduct(select){
+
+const row=
+select.closest("tr");
+
+const p=
+products[
+Number(select.value)
+];
+
+if(!p)return;
+
+row.querySelector(".hsn")
+.innerText=p.hsn;
+
+row.querySelector(".packing")
+.innerText=p.packing;
+
+row.querySelector(".rate")
+.value=p.rate;
+
+calculateInvoice();
+
+}
+
+
+function removeInvoiceProduct(button){
+
+const rows=
+document.querySelectorAll(
+"#invoiceProducts tr"
+);
+
+if(rows.length<=1){
+
+alert(
+"At least one product is required."
+);
+
+return;
+
+}
+
+button
+.closest("tr")
+.remove();
+
+renumberInvoiceRows();
+
+calculateInvoice();
+
+}
+
+
+function renumberInvoiceRows(){
+
+document
+.querySelectorAll(
+"#invoiceProducts tr"
+)
+.forEach((row,i)=>{
+row.cells[0].innerText=i+1;
+});
+
+}
+
+
+/* ==========================
+CALCULATION
+========================== */
+
+function calculateInvoice(){
+
+let total=0;
+
+document
+.querySelectorAll(
+"#invoiceProducts tr"
+)
+.forEach(row=>{
+
+const qty=
+Number(
+row.querySelector(".qty").value
+)||0;
+
+const rate=
+Number(
+row.querySelector(".rate").value
+)||0;
+
+const amount=
+qty*rate;
+
+const taxable=
+amount/1.05;
+
+row.querySelector(".taxable")
+.innerText=
+"₹"+taxable.toFixed(2);
+
+row.querySelector(".amount")
+.innerText=
+"₹"+amount.toFixed(2);
+
+total+=amount;
+
+});
+
+const taxableTotal=
+total/1.05;
+
+const cgst=
+taxableTotal*.025;
+
+const sgst=
+taxableTotal*.025;
+
+document.getElementById(
+"taxableTotal"
+).innerText=
+"₹"+taxableTotal.toFixed(2);
+
+document.getElementById(
+"cgst"
+).innerText=
+"₹"+cgst.toFixed(2);
+
+document.getElementById(
+"sgst"
+).innerText=
+"₹"+sgst.toFixed(2);
+
+document.getElementById(
+"invoiceTotal"
+).innerText=
+"₹"+total.toFixed(2);
+
+document.getElementById(
+"amountWords"
+).innerText=
+numberToWords(total)
++" Rupees Only";
+
+}
+
+
+/* ==========================
+SAVE INVOICE
+========================== */
+
+function saveInvoice(){
+
+const total=
+Number(
+document.getElementById(
+"invoiceTotal"
+).innerText
+.replace(/[₹,]/g,"")
+);
+
+const invoice={
+
+id:currentInvoiceId||Date.now(),
+
+number:
+document.getElementById(
+"invoiceNumber"
+).value,
+
+date:
+document.getElementById(
+"invoiceDate"
+).value,
+
+status:
+document.getElementById(
+"invoiceStatus"
+).value,
+
+payment:
+document.getElementById(
+"paymentTerms"
+).value,
+
+creditPeriod:
+document.getElementById(
+"creditPeriod"
+).value,
+
+customer:
+document.getElementById(
+"buyerName"
+).value,
+
+customerIndex:
+document.getElementById(
+"invoiceCustomer"
+).value,
+
+amount:total
+
+};
+
+const existing=
+invoices.findIndex(
+i=>i.id===invoice.id
+);
+
+if(existing>=0){
+
+invoices[existing]=invoice;
+
+}else{
+
+invoices.push(invoice);
+
+}
+
+localStorage.setItem(
+"willpowerInvoices",
+JSON.stringify(invoices)
+);
+
+currentInvoiceId=invoice.id;
+
+updateDashboard();
+
+displayInvoices();
+
+alert("Invoice saved.");
+
+}
+
+
+/* ==========================
+INVOICE LIST
+========================== */
+
+function displayInvoices(){
+
+const tbody=
+document.getElementById(
+"invoiceTable"
+);
+
+const search=
+(
+document.getElementById(
+"invoiceSearch"
+)?.value||""
+).toLowerCase();
+
+tbody.innerHTML="";
+
+invoices
+.slice()
+.reverse()
+.forEach(invoice=>{
+
+if(
+search &&
+!invoice.number
+.toLowerCase()
+.includes(search)&&
+!(invoice.customer||"")
+.toLowerCase()
+.includes(search)
+){
+return;
+}
+
+const row=
+document.createElement("tr");
+
+row.innerHTML=`
+
+<td>${safe(invoice.number)}</td>
+
+<td>${safe(invoice.date)}</td>
+
+<td>${safe(invoice.customer)}</td>
+
+<td>${safe(invoice.status)}</td>
+
+<td>${safe(invoice.payment)}</td>
+
+<td>₹${Number(invoice.amount).toFixed(2)}</td>
+
+<td>
+<button
+onclick="loadInvoice(${invoice.id})">
+Open
+</button>
+</td>
+
+`;
+
+tbody.appendChild(row);
+
+});
+
+}
+
+
+/* ==========================
+LOAD INVOICE
+========================== */
+
+function loadInvoice(id){
+
+const invoice=
+invoices.find(i=>i.id===id);
+
+if(!invoice)return;
+
+currentInvoiceId=invoice.id;
+
+document.getElementById(
+"invoiceNumber"
+).value=invoice.number;
+
+document.getElementById(
+"invoiceDate"
+).value=invoice.date;
+
+document.getElementById(
+"invoiceStatus"
+).value=invoice.status;
+
+document.getElementById(
+"paymentTerms"
+).value=invoice.payment;
+
+document.getElementById(
+"creditPeriod"
+).value=
+invoice.creditPeriod||"";
+
+populateCustomerSelect();
+
+document.getElementById(
+"invoiceCustomer"
+).value=
+invoice.customerIndex||"";
+
+selectCustomer();
+
+openPage("invoicePage");
+
+}
+
+
+/* ==========================
+PAYMENT ENTRY
+========================== */
+
+function recordPayment(){
+
+const customerIndex=
+document.getElementById(
+"paymentCustomer"
+).value;
+
+const amount=
+Number(
+document.getElementById(
+"paymentAmount"
+).value
+)||0;
+
+if(customerIndex===""){
+
+alert("Select customer.");
+
+return;
+
+}
+
+if(amount<=0){
+
+alert("Enter payment amount.");
+
+return;
+
+}
+
+const payment={
+
+id:Date.now(),
+
+customerIndex:Number(
+customerIndex
+),
+
+customer:
+customers[
+Number(customerIndex)
+].name,
+
+date:
+document.getElementById(
+"paymentDate"
+).value,
+
+amount:amount,
+
+mode:
+document.getElementById(
+"paymentMode"
+).value,
+
+reference:
+document.getElementById(
+"paymentReference"
+).value
+
+};
+
+payments.push(payment);
+
+localStorage.setItem(
+"willpowerPayments",
+JSON.stringify(payments)
+);
+
+document.getElementById(
+"paymentAmount"
+).value="";
+
+document.getElementById(
+"paymentReference"
+).value="";
+
+displayPayments();
+
+displayLedger();
+
+updateDashboard();
+
+alert("Payment recorded.");
+
+}
+
+
+/* ==========================
+PAYMENTS TABLE
+========================== */
+
+function displayPayments(){
+
+const tbody=
+document.getElementById(
+"paymentTable"
+);
+
+tbody.innerHTML="";
+
+payments
+.slice()
+.reverse()
+.forEach(p=>{
+
+const row=
+document.createElement("tr");
+
+row.innerHTML=`
+
+<td>${safe(p.date)}</td>
+
+<td>${safe(p.customer)}</td>
+
+<td>₹${Number(p.amount).toFixed(2)}</td>
+
+<td>${safe(p.mode)}</td>
+
+<td>${safe(p.reference)}</td>
+
+`;
+
+tbody.appendChild(row);
+
+});
+
+}
+
+
+/* ==========================
+CUSTOMER LEDGER
+========================== */
+
+function displayLedger(){
+
+const tbody=
+document.getElementById(
+"ledgerTable"
+);
+
+const index=
+document.getElementById(
+"ledgerCustomer"
+).value;
+
+tbody.innerHTML="";
+
+if(index==="")return;
+
+const customerIndex=
+Number(index);
+
+let balance=0;
+
+const entries=[];
+
+
+/* CREDIT INVOICES */
+
+invoices.forEach(invoice=>{
+
+if(
+Number(invoice.customerIndex)
+===customerIndex &&
+invoice.payment==="Credit" &&
+invoice.status!=="Cancelled"
+){
+
+entries.push({
+
+date:invoice.date,
+
+reference:invoice.number,
+
+description:"Credit Invoice",
+
+debit:Number(invoice.amount)||0,
+
+credit:0
+
+});
+
+}
+
+});
+
+
+/* PAYMENTS */
+
+payments.forEach(payment=>{
+
+if(
+Number(payment.customerIndex)
+===customerIndex
+){
+
+entries.push({
+
+date:payment.date,
+
+reference:payment.reference||"",
+
+description:"Payment Received",
+
+debit:0,
+
+credit:Number(payment.amount)||0
+
+});
+
+}
+
+});
+
+
+entries.sort(
+(a,b)=>
+new Date(a.date)-new Date(b.date)
+);
+
+
+entries.forEach(entry=>{
+
+balance+=entry.debit;
+balance-=entry.credit;
+
+const row=
+document.createElement("tr");
+
+row.innerHTML=`
+
+<td>${safe(entry.date)}</td>
+
+<td>${safe(entry.reference)}</td>
+
+<td>${safe(entry.description)}</td>
+
+<td>₹${entry.debit.toFixed(2)}</td>
+
+<td>₹${entry.credit.toFixed(2)}</td>
+
+<td>
+₹${balance.toFixed(2)}
+</td>
+
+`;
+
+tbody.appendChild(row);
+
+});
+
+
+if(!entries.length){
+
+const row=
+document.createElement("tr");
+
+row.innerHTML=
+`<td colspan="6">
+No ledger entries.
+</td>`;
+
+tbody.appendChild(row);
+
+}
+
+}
+
+
+/* ==========================
+ACCOUNT TOTALS
+========================== */
+
+function calculateAccounts(){
+
+let sales=0;
+let creditSales=0;
+let collections=0;
+
+invoices.forEach(invoice=>{
+
+if(invoice.status==="Cancelled")return;
+
+sales+=Number(invoice.amount)||0;
+
+if(invoice.payment==="Credit"){
+
+creditSales+=
+Number(invoice.amount)||0;
+
+}
+
+});
+
+
+payments.forEach(payment=>{
+
+collections+=
+Number(payment.amount)||0;
+
+});
+
+
+const outstanding=
+creditSales-collections;
+
+return{
+sales,
+creditSales,
+collections,
+outstanding:Math.max(
+0,
+outstanding
+)
+};
+
+}
+
+
+/* ==========================
+ACCOUNT DISPLAY
+========================== */
+
+function prepareAccounts(){
+
+populateCustomerSelect();
+
+const totals=
+calculateAccounts();
+
+document.getElementById(
+"accountSales"
+).innerText=
+"₹"+totals.sales.toFixed(2);
+
+document.getElementById(
+"creditSales"
+).innerText=
+"₹"+totals.creditSales.toFixed(2);
+
+document.getElementById(
+"accountCollections"
+).innerText=
+"₹"+totals.collections.toFixed(2);
+
+document.getElementById(
+"accountOutstanding"
+).innerText=
+"₹"+totals.outstanding.toFixed(2);
+
+displayPayments();
+
+displayLedger();
+
+}
+
+
+/* ==========================
+DASHBOARD
+========================== */
+
+function updateDashboard(){
+
+const totals=
+calculateAccounts();
+
+const today=
+new Date()
+.toISOString()
+.split("T")[0];
+
+const month=
+today.substring(0,7);
+
+let todaySales=0;
+let monthSales=0;
+
+invoices.forEach(invoice=>{
+
+if(invoice.status==="Cancelled")return;
+
+if(invoice.date===today){
+
+todaySales+=
+Number(invoice.amount)||0;
+
+}
+
+if(invoice.date.startsWith(month)){
+
+monthSales+=
+Number(invoice.amount)||0;
+
+}
+
+});
+
+
+document.getElementById(
+"todaySales"
+).innerText=
+"₹"+todaySales.toFixed(2);
+
+document.getElementById(
+"monthSales"
+).innerText=
+"₹"+monthSales.toFixed(2);
+
+document.getElementById(
+"dashboardCollections"
+).innerText=
+"₹"+totals.collections.toFixed(2);
+
+document.getElementById(
+"dashboardOutstanding"
+).innerText=
+"₹"+totals.outstanding.toFixed(2);
+
+}
+
+
+/* ==========================
+NUMBER TO WORDS
+========================== */
+
+function numberToWords(num){
+
+const ones=[
+"",
+"One","Two","Three","Four","Five","Six","Seven","Eight","Nine",
+"Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen",
+"Sixteen","Seventeen","Eighteen","Nineteen"
+];
+
+const tens=[
+"","","Twenty","Thirty","Forty","Fifty","Sixty",
+"Seventy","Eighty","Ninety"
+];
+
+function convert(n){
+
+if(n<20)return ones[n];
+
+if(n<100)
+return tens[Math.floor(n/10)]
++(n%10?" "+ones[n%10]:"");
+
+if(n<1000)
+return ones[Math.floor(n/100)]
++" Hundred"
++(n%100?" "+convert(n%100):"");
+
+if(n<100000)
+return convert(Math.floor(n/1000))
++" Thousand"
++(n%1000?" "+convert(n%1000):"");
+
+if(n<10000000)
+return convert(Math.floor(n/100000))
++" Lakh"
++(n%100000?" "+convert(n%100000):"");
+
+return convert(Math.floor(n/10000000))
++" Crore"
++(n%10000000?" "+convert(n%10000000):"");
+
+}
+
+return convert(Math.floor(num))||"Zero";
+
+}
+
+
+/* ==========================
+SAFE DISPLAY
+========================== */
+
+function safe(value){
+
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;");
+
+}
+
+
+/* ==========================
+INITIALISE
+========================== */
+
+document.getElementById(
+"paymentDate"
+).value=
+new Date()
+.toISOString()
+.split("T")[0];
+
+newInvoice();
+
+displayCustomers();
+
+displayProducts();
+
+displayInvoices();
+
+populateCustomerSelect();
+
+updateDashboard();
+
+</script>
+
+</body>
+</html>
