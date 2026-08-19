@@ -1,14 +1,213 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Willpower Sales</title>
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Willpower Sales</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+    }
 
-  <body>
-    <div id="root"></div>
+    .app {
+      max-width: 1200px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+    }
 
-    <script type="module" src="./src/main.jsx"></script>
-  </body>
+    h1 {
+      margin: 0;
+      color: #111;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #111;
+      padding-bottom: 20px;
+    }
+
+    .box {
+      border: 1px solid #333;
+      padding: 15px;
+      margin-top: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0;
+      font-weight: bold;
+    }
+
+    input, select {
+      padding: 8px;
+      margin-left: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #333;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background: #eee;
+    }
+
+    .total {
+      text-align: right;
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 12px 25px;
+      background: #111;
+      color: white;
+      border: 0;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="header">
+    <div>
+      <h1>WORLD OF WILLPOWER</h1>
+      <p>World of Willpower Private Limited</p>
+      <p>Pune, Maharashtra</p>
+    </div>
+
+    <div>
+      <h2>SALE INVOICE</h2>
+      <p>Invoice No: WWPL/RE/001</p>
+      <p>Date: 19/08/2026</p>
+    </div>
+  </div>
+
+  <div class="box">
+    <h3>BUYER</h3>
+    <p><b>Raghavendra Enterprises</b></p>
+    <p>548, LIG, 14th Cross, Navanagar, Hubballi - 580025</p>
+    <p>Karnataka</p>
+  </div>
+
+  <div class="box">
+
+    <label>
+      Product
+      <select id="product">
+        <option>Willpower Indian Cow Ghee</option>
+      </select>
+    </label>
+
+    <label>
+      Quantity
+      <input id="qty" type="number" value="25">
+    </label>
+
+    <label>
+      Rate / Unit (Incl. GST)
+      <input id="rate" type="number" value="975">
+    </label>
+
+    <label>
+      Payment Terms
+      <select id="payment">
+        <option>100% Advance Payment</option>
+        <option>Payment on Delivery</option>
+        <option>Credit</option>
+      </select>
+    </label>
+
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Qty</th>
+        <th>Rate</th>
+        <th>Taxable Value</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>Willpower Indian Cow Ghee</td>
+        <td id="showQty">25</td>
+        <td id="showRate">₹975.00</td>
+        <td id="taxable">₹23,214.29</td>
+        <td id="total">₹24,375.00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="box">
+    <p>CGST @ 2.5%: <b id="cgst">₹580.36</b></p>
+    <p>SGST @ 2.5%: <b id="sgst">₹580.36</b></p>
+
+    <div class="total">
+      Invoice Total: <span id="grand">₹24,375.00</span>
+    </div>
+  </div>
+
+  <button onclick="window.print()">Print / Save PDF</button>
+
+</div>
+
+<script>
+
+function calculate() {
+
+  const qty = Number(document.getElementById("qty").value) || 0;
+  const rate = Number(document.getElementById("rate").value) || 0;
+
+  const total = qty * rate;
+  const taxable = total / 1.05;
+  const tax = taxable * 0.025;
+
+  document.getElementById("showQty").innerText = qty;
+  document.getElementById("showRate").innerText =
+    "₹" + rate.toFixed(2);
+
+  document.getElementById("taxable").innerText =
+    "₹" + taxable.toFixed(2);
+
+  document.getElementById("cgst").innerText =
+    "₹" + tax.toFixed(2);
+
+  document.getElementById("sgst").innerText =
+    "₹" + tax.toFixed(2);
+
+  document.getElementById("total").innerText =
+    "₹" + total.toFixed(2);
+
+  document.getElementById("grand").innerText =
+    "₹" + total.toFixed(2);
+}
+
+document.getElementById("qty").addEventListener("input", calculate);
+document.getElementById("rate").addEventListener("input", calculate);
+
+calculate();
+
+</script>
+
+</body>
 </html>
